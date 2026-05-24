@@ -1,0 +1,24 @@
+\babel@toc {spanish}{}\relax 
+\hspace {-7.5mm} \textbf {Chapters}
+\hfill \textbf {Page} \par 
+\vspace {-2mm} \hspace {-7.5mm} \hrule \par 
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Presentación del problema}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Resolución Numérica}{2}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Función de onda espacial:}{3}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Función de onda temporal:}{3}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}Objetivo del trabajo:}{3}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Metodología}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Implementación computacional}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Expresion de V(x). Oscilador Cuántico}{5}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Resultados}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Auto funciones}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Función Inicial Gaussiana}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Comparación con modelo Clásico}{6}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Conclusiones}{6}{section.5}%
+\contentsline {section}{\numberline {6}Apéndice}{6}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Resolución ec. de Schrödinger mediante separación de variables.}{6}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Aplicación del método de C-N para la ecuación de Schrödinger (solo discretización temporal).}{6}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Algoritmo de Thomas}{6}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Aproximación por el método de diferencias centrales.}{7}{subsection.6.4}%

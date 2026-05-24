@@ -1,0 +1,419 @@
+\documentclass[10pt,onecolumn]{article}
+
+
+%Aquí vienen todos los paquetes que se van a usar
+
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage[bottom]{footmisc}
+\usepackage{comment}
+
+\usepackage{subcaption} % Añade esto en el preámbulo si no lo tienes
+\usepackage{colortbl} %Permite agregar color a las celdas de las tablas.
+\usepackage{mathtools} %Contiene herramientas adicionales para componer fórmulas matemáticas en LaTeX.
+\usepackage{algorithm2e} %Facilita la sintaxis de los algoritmos.
+%\usepackage[T1]{fontenc} %Hace posible escribir en diferentes idiomas.
+\usepackage{lmodern} %Carga la fuente Latin modern en el documento.
+\usepackage{float} %Hace posible el uso de [H] en las tablas y gráficas.
+\usepackage{blindtext} %Ncesario para usar este tipo de comentarios.
+\usepackage{multicol} %Posibilidad (no mostrada aquí) de escribir en varias columnas para una misma página.
+\usepackage{wrapfig} %Permite que las figuras y tablas se ajusten mejor al texto.
+\usepackage{breqn} %Ajusta ecuaciones largas al ancho de la página, teniendo que romper y bajar a una fila más abajo parte de la ecuación para que quepa dentro de los márgenes.
+\usepackage{array} %Permite personalizar más ampliamente las columnas de las tablas de LaTeX.
+\usepackage{eurosym} %Posibilidad de usar el símbolo € en el texto.
+\usepackage{amsmath} %Mejoras para la escritura de ecuaciones matemáticas.
+\usepackage{mathrsfs} %Prporciona el alfabeto de letras minúsculas de Ralph Smith.
+\usepackage{indentfirst} %Encaja el primer párrafo de un encabezado del documento, si por ejemplo el primer párrafo queremos que esté sangrado.
+\usepackage{amsthm} %Facilita la escritura de demostraciones de afirmaciones matemáticas de toda clase.
+\usepackage[font=small,labelfont=bf]{caption} %Formatea los títulos de figuras y gráficas.
+\usepackage{graphicx} %Facilita la inclusión de imágenes en LaTeX.
+\usepackage[titles]{tocloft} %Posibilidad de personalizar el formato del Índice.
+\usepackage[hidelinks]{hyperref} %Crea hipervínculos en el PDF generado del documento de texto final, para poder navegar a través y externamente al documento.
+\setlength{\parindent}{12pt} %Establece la sangría de la primera línea de cada párrafo a {...pt}.
+\usepackage{multirow} %Posibilidad de combinar filas de las tablas de LaTeX.
+\usepackage{parskip} %Modifica los espacios entre párrafos para que no haya sangría, sino que se genere un espacio entre medias predeterminado. 
+\usepackage{fancyhdr} %Creación de encabezados y pies de página.
+\usepackage[utf8]{inputenc} %Permite usar caracteres especiales y letras acentuadas directamente en el código LaTeX.
+\usepackage{bm} %Posibilidad de escribir símbolos en negrita en lenguaje matemático. 
+\usepackage{url} %Inclusión de direcciones URL en el documento.
+\usepackage{siunitx} %Permite la escritura de cantidades físicas y unidades en el documento.
+\usepackage{geometry} %Posibilidad de personalizar las dimensiones del documento.
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+
+%Aquí se definen cosas de colores y movidas fancys
+\usepackage[dvipsnames]{xcolor}
+\definecolor{nube}{RGB}{188,108,37}
+\definecolor{salmon}{RGB}{248, 131, 121}
+
+%Aquí tenemos un poco el formateo de la página
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{}
+\rhead{\thepage}
+ \lhead{Simulación Schrödinger para el oscilador armónico cuántico.}
+
+
+\begin{document}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\renewcommand{\refname}{Bibliography}
+\renewcommand{\tablename}{Table}
+\renewcommand{\contentsname}{Index}
+\renewcommand{\figurename}{Fig.}
+\captionsetup{labelfont={color=nube}}
+\addtocontents{toc}{\hspace{-7.5mm} \textbf{Chapters}}
+\addtocontents{toc}{\hfill \textbf{Page} \par}
+\addtocontents{toc}{\vspace{-2mm} \hspace{-7.5mm} \hrule \par}
+
+\onecolumn
+\begin{titlepage}
+\centering
+    {\HRule{2 pt}} \\
+    \vspace{0.5cm}
+    {\scshape\Huge Simulación de la ecuación de Schrödinger dependiente del tiempo para el oscilador armónico cuántico.}  \\
+    %AQUI SE PONE EL TITULO
+    \vspace{1 mm}
+    
+    {\HRule{2 pt}}
+
+    \vspace{1cm}
+    \Large 15/05/2026 \\
+    \vspace{1cm}
+ 
+    \normalfont\Large Universidad de Granada, Facultad de Ciencias \\
+    \vspace{0.5cm}
+    
+    
+     \normalfont\Large Grado en Físicas \\
+    \vspace{0.5cm}
+     \normalfont Física Computacional \\
+    \vspace{1.5cm}
+
+\centering
+    {\includegraphics[width=0.5\textwidth]{UGR-MARCA-01-color.jpg}\par}
+
+\vfill
+    \vspace{1cm}
+    \scshape\Large Jorge del Rio López\\
+    
+    \vspace{0.5cm}
+
+\vfill
+
+\end{titlepage}
+
+\selectlanguage{Spanish}
+
+\tableofcontents %único comando para manejar TODO el índice.
+\newpage
+
+\HRule{0.5pt} %Controla los márgenes horizontales visibles (líneas) y el grosor de la línea (...pt).
+
+\begin{abstract}
+RESUMEN
+\end{abstract}
+
+\section{Introducción}
+
+
+
+
+\section{Presentación del problema}
+En la teoría de Mecánica Cuántica el comportamiento de un sistema viene descrito por su función de onda $\Psi(x,t)$, la cual debe cumplir la famosa ecuación de Schrödinger:
+
+\begin{equation}
+    i\ \hbar [\dfrac{\partial \Psi(x,t)}{\partial t}] = [-\dfrac{\hbar^2}{2\ m}\nabla^2 + V(x)]\Psi(x,t) = H \Psi(x,t)
+\end{equation}
+
+Donde $H$ es un operador hermítico, al trabajar en una sola dimensión el gradiente $\nabla^2$ se transforma en una derivada parcial respecto de la variable a estudiar, en este caso trabajaremos con $x$, por lo tanto el operador $\hat{H}$ quedaría de la siguiente forma:
+
+\begin{equation}\label{eq:Operador_H}
+\hat{H} = - [-\dfrac{\hbar^2}{2\ m}\dfrac{\partial^2}{\partial x ^2} + V(x) ]   
+\end{equation}
+
+Para evitar trabajar con las constantes que aparecen re escalaremos las coordenadas buscando eliminarlas, para ello $t\rightarrow \hbar\ t$ y $x\rightarrow x\ \dfrac{\hbar}{\sqrt{2m}}$, logrando así convertir $m = 0.5$ y $\hbar = 1$, a partir de aquí trabajaremos con estas coordenadas re escaladas.
+
+
+El potencial que estudiaremos será un potencial muy conocido en la física, el potencial armónico, con ecuación: $V(x)=\dfrac{\omega^{2}}{5}\,{}(x-x_{0})^{2}$
+
+Si resolvemos la ecuación de Schr. mediante el método de separación de variables\footnote{La resolución se encuentra en el apéndice.} llegamos a la expresión de la solución:
+\begin{equation}\label{eq:SolucionFormal}
+    \Psi(x,t)= e^{-i\ (t-t_0)\  H}\ \psi(x,t_0)
+\end{equation}
+
+En la ecuación \ref{eq:SolucionFormal} se muestra la solución formal de la ecuación de Schrödinger dependiente del tiempo, donde $\psi(x,t_0)$ es la función de onda en el tiempo inicial $t_0$ y $e^{-i\ (t-t_0)\  H}$ es el operador de evolución temporal que actúa sobre la función de onda para obtener su estado en cualquier tiempo posterior $t$.
+
+\subsection{Resolución Numérica}
+
+La resolución numérica que seguiremos para resolver la ecuación de Schrödinger dependiente del tiempo se basa en la aplicación de métodos numéricos para aproximar la solución de la ecuación diferencial parcial que representa la ecuación de Schrödinger.
+
+
+Para llevar a cabo este proceso, emplearemos el método de Crank-Nicolson\footnote{En el apendice se encuentra la aplicación de este método en un sistema con solo discretización temporal.}, el cual es un método numérico de orden 2 que se utiliza para resolver ecuaciones diferenciales parciales, como la ecuación de Schrödinger. Este método es incondicionalmente estable, lo que significa que no hay restricciones en el tamaño del paso de tiempo $\Delta t$ para garantizar la estabilidad numérica. 
+
+
+Para llevar a cabo esto, lo primero que haremos será discretizar el espacio $x_j = j\Delta x = j \dfrac{L}{S}$ y el tiempo $t_n = n\Delta t$, obteniendo una malla de puntos en el espacio y en el tiempo. Pasando así nuestra ecuación $\psi(x_j,t_n) \rightarrow \psi_{j}^{n}$ con $j$ y $n$ enteros y la limitación $j = 0, 1, 2, \ldots, S$ encerrado en un espacio de tamaño $L$.
+
+\subsubsection{Función de onda espacial:}
+
+Para la parte espacial de la función de onda, tenemos unas derivada segunda respecto de $x$, por lo que emplearemos el método de diferencias centrales\footnote{Expliación en el apendice.} para esta parte, obteniendo así la siguiente expresión:
+\begin{equation}
+    \dfrac{\partial^2 \psi}{\partial x^2} \approx \dfrac{\psi_{j+1}^{n} - 2\psi_{j}^{n} + \psi_{j-1}^{n}}{(\Delta x)^2}
+\end{equation}
+
+Con esta expresión, podemos aproximar la parte espacial de la ecuación de Schrödinger, teniendo en cuenta el potencial $V(x)$ y que este se discretiza como $V_{j} = V(x_j)$, obtenemos la siguiente expresión para la expresión del hamiltoniano $\hat{H}$ para un tiempo en la parte espacial:
+\begin{equation}
+    \hat{H} \psi_{j}^{n} = -\dfrac{\psi_{j+1}^{n} - 2\psi_{j}^{n} + \psi_{j-1}^{n}}{(\Delta x)^2} + V_{j} \psi_{j}^{n}
+\end{equation}
+
+
+
+
+\subsubsection{Función de onda temporal:}
+Para la parte temporal de la función de onda, tenemos una derivada primera respecto del tiempo, por lo que emplearemos el método C-N para esta parte, obteniendo así la siguiente expresión obtenida en el apéndice:
+\begin{equation}
+    \psi_{n+1}(x) =\dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})}\psi_n(x)
+\end{equation}
+
+Donde $\psi_n(x)$ es la función de onda en el tiempo $t_n$ y $\psi_{n+1}(x)$ es la función de onda en el tiempo $t_{n+1}$, con $t_{n+1} = t_n + \Delta t$; el operador $\dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})}$ es el operador de evolución temporal que es hermítico si $\hat{H}$ es hermítico, lo que garantiza la conservación de la norma de la función de onda a lo largo del tiempo.
+
+
+
+
+
+
+\subsection{Objetivo del trabajo:}
+En esta sección se describen los objetivos que se pretenden alcanzar con el presente trabajo, los cuales se resumen en:
+
+-Evolucion temporal de RE e IM de la funcion
+-Evolucion Probabilidad
+-Conservacion de la norma
+-Valor medio de x, p y H y compararlo con valores teóricos
+-Comprobar principio de incertidumbre
+-Probabilidad clasica en n=20
+
+\section{Metodología}
+
+En este apartado se describen los pasos que se han seguido para llevar a cabo el trabajo, para ello partimos de la expresión del apartado anterior:
+\begin{equation}
+    \psi^{n+1}_j =\dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})}\psi^n_j
+\end{equation}
+
+Para poder trabajar con la expresión de una manera más sencilla lo que haremos será escribir la expresión de la siguiente manera:
+\begin{equation}
+    \dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})} = \dfrac{2}{1+i\ \dfrac{\Delta t}{2}\ \hat{H}} -1
+\end{equation}
+
+Con esta expresión tenemos la siguiente ecuación:
+\begin{equation}\label{eq:Relacion_q_psi}
+    \psi^{n+1}_j = (\dfrac{2}{1+i\ \Delta t\ \hat{H}/2} - 1)\psi^n_j = q^n_j - \psi^n_j
+\end{equation}
+
+Donde $q^n_j = \dfrac{2}{1+i\ \Delta t\ \hat{H}/2}\psi^n_j$, para obtener el valor de $q^n_j$ lo que haremos será resolver la siguiente ecuación:
+\begin{equation}
+    (1+i\ \Delta t\ \hat{H}/2)q^n_j = 2\psi^n_j
+\end{equation}
+
+Si aplicamos la expresión del operador $\hat{H}$ que se muestra en la ecuación \ref{eq:Operador_H} y teniendo en cuenta la discretización espacial, obtenemos la siguiente expresión:
+\begin{equation}
+    (1+i\ \Delta t\ \hat{H}/2)q^n_j = (q_j^n+i\ \Delta t\ [-\dfrac{q_{j+1}^{n} - 2q_{j}^{n} + q_{j-1}^{n}}{(\Delta x)^2} + V_{j} q_{j}^{n}]/2) = 2\psi^n_j
+\end{equation}
+
+
+Operando sobre la expresión anterior y separando los términos de $q^n_j$ y los demás, obtenemos la siguiente ecuación, para reducir la cantidad de contantes definimos $\omega = \dfrac{\Delta t}{(\Delta x)^2}$:
+\begin{equation}
+    -\dfrac{i\ }{2\ }\omega\ q_{j+1}^{n} + (1 + i\ \dfrac{\Delta t}{2}\ V_j + i\ \omega) q_{j}^{n} - \dfrac{i\ }{2 }\omega\  q_{j-1}^{n} = 2\psi^n_j
+\end{equation}
+
+Sacando de factor común el termino $i\ \omega/2$ llegamos a la siguiente expresión:
+\begin{equation}
+    -q_{j+1}^{n} + (\dfrac{2}{i \omega} +\Delta x^2 V_j + 2) q_{j}^{n} - q_{j-1}^{n} = - \dfrac{4i}{\omega}\psi^n_j \rightarrow q_{j+1}^{n} + (\dfrac{2i}{\omega} -\Delta x^2 V_j - 2) q_{j}^{n}  q_{j-1}^{n} = \dfrac{4i}{\omega}\psi^n_j
+\end{equation}
+
+Con esta expresión, somos capaces de obtener el valor de $q^n_j$ resolviendo un sistema de ecuaciones lineales del tipo $k_1\ q_{j+1}^{n} + k_2\ q_{j}^{n} + k_3\ q_{j-1}^{n} = b_j^n$ con $k_1 = 1$, $k_2 = \dfrac{2i}{\omega} -\Delta x^2 V_j - 2$, $k_3 = 1$ y $b_j^n = \dfrac{4i}{\omega}\psi^n_j$, para resolver este sistema de ecuaciones lineales emplearemos el método de Thomas\footnote{Este método se explica en el apéndice}, el cual es un método eficiente para resolver sistemas de ecuaciones lineales tridiagonales, como el que tenemos en este caso, para poder aplicarlo necesitamos considerar las condiciones de contorno para que concuerden con las convenciones $q_0 = 0$ y $q_S = 0$.
+
+En nuestro caso, los valores $k_1$ y $k_3$ son constantes e igual a $1$, y siguiendo el procedimiento del apendice llegamos a la expresión de $q^n_{j+1} = \alpha_j q^n_j + \beta_j$, con $\alpha_j$ y $\beta_j$ definidos por las siguientes fórmulas de recurrencia (para un $n$ fijo):
+\begin{equation}
+    \alpha_{j-1} = -\dfrac{a_j}{b_j + c_j \alpha_j} = -\dfrac{1}{\dfrac{2i}{\omega} -\Delta x^2 V_j - 2 + \alpha_j}
+\end{equation}
+\begin{equation}        
+    \beta_{j-1}^n = \dfrac{d_j - a_j \beta_{j}}{b_j + c_j \alpha_j} = \dfrac{\dfrac{4i}{\omega}\psi^n_j - \beta_{j}}{\dfrac{2i}{\omega} -\Delta x^2 V_j - 2 + \alpha_j}
+\end{equation}
+
+A partir de estas ecuaciones y aplicando las condiciones de contorno, podemos obtener el valor de $q^n_j$ para cada $j$, y a partir de ahí obtener el valor del estado de la función de onda en el tiempo $t_{n+1}$ a través de la expresión \ref{eq:Relacion_q_psi}.
+
+
+\subsection{Implementación computacional}
+En esta sección se describen los detalles de la implementación computacional que se ha llevado a cabo para resolver la ecuación de Schrödinger dependiente del tiempo para el oscilador armónico cuántico, se ha seguido el siguiente procedimiento:
+
+\begin{enumerate}
+    \item Se definen los parámetros del sistema, como el tamaño de la malla espacial, el paso de tiempo, el paso espacial, el potencial $V(x)$ y las condiciones iniciales para la función de onda $\psi(x,t_0)$.
+    \item Se discretiza el espacio y el tiempo, creando una malla de puntos en el espacio y en el tiempo.
+    \item Se implementa el método de Crank-Nicolson para resolver la ecuación de Schrödinger dependiente del tiempo, utilizando el método de diferencias centrales para la parte espacial y el método de Crank-Nicolson para la parte temporal.
+    \item Se resuelve el sistema de ecuaciones lineales tridiagonal utilizando el método de Thomas para obtener el valor de $q^n_j$ en cada paso de tiempo. Calculando los valores de $\alpha_j$ y $\beta_j$ a través de las fórmulas de recurrencia y aplicando las condiciones de contorno.
+    \item Se actualiza la función de onda $\psi(x,t)$ en cada paso de tiempo utilizando la relación entre $q^n_j$ y $\psi^n_j$.
+    \item Se aumenta el tiempo y se repite el proceso desde el paso 3 hasta alcanzar el tiempo final deseado.
+\end{enumerate}
+
+
+\subsection{Expresion de V(x). Oscilador Cuántico}
+La expresión del potencial que se ha utilizado para el oscilador armónico cuántico es la siguiente:
+\begin{equation}\label{eq:Vx}
+    V(x) = \dfrac{\omega_{osc}}{4} (x-x_0)^2
+\end{equation}
+
+Los parametros que se han utilizado para el estudio del oscilador armónico cuántico son los siguientes:
+\begin{itemize}
+    \item $\omega_{osc} = 1$: Frecuencia del oscilador armónico.
+    \item $x_0 = 0.5$: Posición de equilibrio del oscilador armónico.
+    \item $L = 1$: Tamaño del espacio en el que se encierra el sistema.
+    \item $S = 1000$: Número de puntos en la malla espacial.
+    \item $\Delta t = $: Paso de tiempo para la evolución temporal.
+    \item $N = 5000$: Número de pasos de tiempo para la evolución temporal.
+    \item 
+\end{itemize}
+
+
+
+
+
+
+PARA EXPRESIONES TEORICAS https://www.fisicacuantica.es/oscilador-armonico/
+
+\section{Resultados}
+En esta sección mostrare los resultados obtenidos, se divide en tres sub-secciones, en las dos primeras cambiaremos las funciones de onda de entrada y observaremos su comportamiento mientras que en la ultimo sub-sección compararemos el comportamiento clásico con el comportamiento cuántico.
+
+\subsection{Auto funciones}
+
+
+
+% AQUI VA CONSERVACION DE NORMA
+
+% AQUI VA EVOLUCION DE PROBABILIDAD
+
+% AQUI VA VALOR MEDIO DE X, P Y
+
+% AQUI VA PRINCIPIO DE INCERTIDUMBRE
+
+
+\subsection{Función Inicial Gaussiana}
+
+
+\subsection{Comparación con modelo Clásico}
+
+\section{Conclusiones}
+
+
+\section{Apéndice}
+\subsection{Resolución ec. de Schrödinger mediante separación de variables.}
+
+
+\subsection{Aplicación del método de C-N para la ecuación de Schrödinger (solo discretización temporal).}
+
+Sea la ecuación de Schr. unidimensional con ($\hbar = 1$ y $m = 0.5$):
+\begin{equation}
+    i\ \dfrac{\partial \Psi(x,t)}{\partial t} = [-\dfrac{\partial^2}{\partial x ^2} + V(x)]\Psi(x,t) = \hat{H} \Psi(x,t)
+\end{equation}
+
+La solución formal de esta ecuación incluye el operador de evolución temporal $e^{-i\ (t-t_0)\  H}$, el cual consume una gran cantidad de recursos computacionales, por ello empleamos el método de Crank-Nicholson en una ecución del tipo $\partial_t = -i \hat{H}$. Discretizando el tiempo, obtenemos las siguientes expresiones, dependiendo de si el método es explícito o implícito:
+
+Euler Explícito:
+\begin{equation}
+    \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \Psi^n(x) \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \Delta t\ \hat{H} \Psi_n(x)
+\end{equation}
+
+Euler Implícito:
+\begin{equation}
+    \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \Psi_{n+1}(x) \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \Delta t\ \hat{H} \Psi_{n+1}(x)
+\end{equation}
+
+El método de Crank-Nicholson se basa en la media entre ambos métodos, obteniendo así la siguiente expresión:
+\begin{equation}
+    \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \dfrac{\Psi_{n+1}(x) + \Psi_n(x)}{2} \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \dfrac{\Delta t}{2}\ \hat{H} [\Psi_{n+1}(x) + \Psi_n(x)]
+\end{equation}
+
+Operando sobre la expresion anterior, obtenemos la siguiente ecuación:
+\begin{equation}
+    (1 + i\ \dfrac{\Delta t}{2}\ \hat{H})\Psi_{n+1}(x) = (1 - i\ \dfrac{\Delta t}{2}\ \hat{H})\Psi_n(x)
+\end{equation}
+
+Esta metódo es un método de orden 2, lo que significa que el error de truncamiento es proporcional a $(\Delta t)^2$. Además, es un método incondicionalmente estable, lo que significa que no hay restricciones en el tamaño del paso de tiempo $\Delta t$  garantizando así la estabilidad numérica.
+
+\subsection{Algoritmo de Thomas}
+
+El algoritmo de Thomas es un método eficiente para resolver sistemas de ecuaciones lineales tridiagonales, como el que tenemos en este caso. El algoritmo se basa en la eliminación gaussiana, pero optimizada para aprovechar la estructura tridiagonal del sistema, la expresión general de un sistema de ecuaciones lineales tridiagonal es la siguiente:
+\begin{equation}
+    a_j x_{j-1} + b_j x_j + c_j x_{j+1} = d_j
+\end{equation}
+
+Donde $a_j$, $b_j$ y $c_j$ son los coeficientes de la matriz tridiagonal, $x_j$ son las incógnitas a resolver y $d_j$ son los términos independientes. El algoritmo de Thomas se divide en dos fases: la fase de eliminación hacia adelante y la fase de sustitución hacia atrás.
+
+El sistema de ecuaciones lineales tridiagonal (visto en forma de matriz) que tenemos en este caso es el siguiente:
+
+\begin{equation}
+    \begin{bmatrix}
+    b_1 & c_1 & 0 & \ldots & 0 \\
+    a_2 & b_2 & c_2 & \ldots & 0 \\
+    0 & a_3 & b_3 & \ldots & 0 \\
+    \vdots & \vdots & \vdots & \ddots & c_{S-1} \\
+    0 & 0 & 0 & a_S & b_S
+    \end{bmatrix}
+    \begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    x_3 \\
+    \vdots \\
+    x_S
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    d_1 \\
+    d_2 \\
+    d_3 \\
+    \vdots \\
+    d_S
+    \end{bmatrix}
+\end{equation}
+
+
+Debido a que solo hay tres diagonales no nulas, el algoritmo hace una pasada hacia adelante para eliminar los términos $a_j$ y luego una pasada hacia atrás para resolver las incógnitas $x_j$. La complejidad computacional del algoritmo de Thomas es $O(n)$, lo que lo hace muy eficiente para resolver sistemas de ecuaciones lineales tridiagonales. Para implementar el algoritmo de Thomas, se siguen los siguientes pasos (estandar):
+\begin{enumerate}
+    \item Inicialización: Se definen los coeficientes $a_j$, $b_j$, $c_j$ y $d_j$ a partir del sistema de ecuaciones lineales tridiagonal que se desea resolver.
+    \item Eliminación hacia adelante: Se realiza una pasada hacia adelante para eliminar los términos $a_j$. Para ello inicialmente se define $c'_1 = c_1 / b_1$ y $d'_1 = d_1 / b_1$. Luego, para cada $j$ desde 2 hasta $S$, se calculan los nuevos coeficientes $c'_j$ y $d'_j$ utilizando las siguientes fórmulas:
+    \begin{equation}
+        c'_j = \dfrac{c_j}{b_j - a_j c'_{j-1}}
+    \end{equation}
+    \begin{equation}        d'_j = \dfrac{d_j - a_j d'_{j-1}}{b_j - a_j c'_{j-1}}
+    \end{equation}
+    \item Sustitución hacia atrás: Se realiza una pasada hacia atrás para resolver las incógnitas $x_j$. Para ello, se define $x_S = d'_S$ y luego, para cada $j$ desde $S-1$ hasta 1, se calcula $x_j$ utilizando la siguiente fórmula:
+    \begin{equation}        x_j = d'_j - c'_j x_{j+1}
+    \end{equation}
+\end{enumerate}
+
+
+
+A continuación se muestra el procedimiento que emplearemos nosotros:
+
+\begin{enumerate}
+    \item Inicialización: Se definen los coeficientes $a_j$, $b_j$, $c_j$ y $d_j$ a partir del sistema de ecuaciones lineales tridiagonal que se desea resolver.
+    \item Linealidad: Usamos un ansatz del tipo $q_j+1 = \alpha_j q_j + \beta_j$ para eliminar el término, lo introducimos en la ecuación y buscamos la linealidad entre $q_j$ y $q_{j-1}$, obteniendo así las siguientes fórmulas de recurrencia para $\alpha_j$ y $\beta_j$:
+    \begin{equation}
+        \alpha_{j-1} = -\dfrac{a_j}{b_j + c_j \alpha_j}
+    \end{equation}
+    \begin{equation}        
+        \beta_{j-1} = \dfrac{d_j - a_j \beta_{j}}{b_j + c_j \alpha_j}
+    \end{equation}
+    \item Sustitución hacia atrás: Se realiza una pasada hacia atrás teniendo en cuenta las condiciones de contorno para los valores iniciales.
+\end{enumerate}
+
+\subsection{Aproximación por el método de diferencias centrales.}
+
+\bibliographystyle{apsrev}
+\bibliography{biblio,references}
+
+
+
+
+\end{document}
