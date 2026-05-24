@@ -1,7 +1,7 @@
-PWD /home/jorge/Documentos/Latex_Compu/Opcional:Schro
+PWD /home/jorge/Documentos/Latex_Compu/Propuestos_Compua/Opcional:Schro
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT /home/jorge/Documentos/Latex_Compu/Opcional:Schro/Main.tex
+INPUT /home/jorge/Documentos/Latex_Compu/Propuestos_Compua/Opcional:Schro/Main.tex
 OUTPUT Main.log
 INPUT /usr/share/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/share/texmf-dist/tex/latex/base/article.cls

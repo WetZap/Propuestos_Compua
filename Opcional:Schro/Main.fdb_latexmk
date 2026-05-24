@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex Main"] 1779645105.1292 "Main.aux" "Main.bbl" "Main" 1779645239.12835 0
+["bibtex Main"] 1779645590.86828 "Main.aux" "Main.bbl" "Main" 1779645591.68913 0
   "./biblio.bib" 1779487698.28188 696 df63601a59533462634047d6ce2e8297 ""
   "./references.bib" 1779487701.49091 573 896ea862964ed30a5b74a2e2a64bdde6 ""
   "/usr/share/texmf-dist/bibtex/bst/revtex4/apsrev.bst" 1775415801 43844 78e58abfb2d07832103f1e2f30cf6375 ""
-  "Main.aux" 1779645238.94736 3479 c9596ef9cf77053b776ca739d18a863d "pdflatex"
+  "Main.aux" 1779645591.50977 3479 c9596ef9cf77053b776ca739d18a863d "pdflatex"
   (generated)
   "Main.bbl"
   "Main.blg"
   (rewritten before read)
-["pdflatex"] 1779645238.46159 "/home/jorge/Documentos/Latex_Compu/Opcional:Schro/Main.tex" "Main.pdf" "Main" 1779645239.12858 0
-  "/home/jorge/Documentos/Latex_Compu/Opcional:Schro/Main.tex" 1779645238.30135 22720 3ae32e0aea6386706cf2ecd8d00f8e65 ""
+["pdflatex"] 1779645590.91442 "/home/jorge/Documentos/Latex_Compu/Propuestos_Compua/Opcional:Schro/Main.tex" "Main.pdf" "Main" 1779645591.68936 0
+  "/home/jorge/Documentos/Latex_Compu/Propuestos_Compua/Opcional:Schro/Main.tex" 1779645590.0402 22720 3ae32e0aea6386706cf2ecd8d00f8e65 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1775415801 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1775415801 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1775415801 2840 216e6e45ad352e2456e1149f28885bee ""
@@ -166,11 +166,11 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1775463213 5385779 47c0c393a77fd4a098bacfd57d66b88a ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1775463204 2349415 56cf3a9ab9f838473c170da73eeef2cc ""
-  "Main.aux" 1779645238.94736 3479 c9596ef9cf77053b776ca739d18a863d "pdflatex"
-  "Main.bbl" 1779645105.17745 584 9411fe63aa1c4dcc3282b86a381435fa "bibtex Main"
-  "Main.out" 1779645238.94936 3897 a1c9d34b8c68f1a08ef851ff28b1b63b "pdflatex"
-  "Main.tex" 1779645238.30135 22720 3ae32e0aea6386706cf2ecd8d00f8e65 ""
-  "Main.toc" 1779645238.9509 1934 53f7cad038a04a99adbdcd5cc9075d19 "pdflatex"
+  "Main.aux" 1779645591.50977 3479 c9596ef9cf77053b776ca739d18a863d "pdflatex"
+  "Main.bbl" 1779645590.91076 584 9411fe63aa1c4dcc3282b86a381435fa "bibtex Main"
+  "Main.out" 1779645591.51177 3897 a1c9d34b8c68f1a08ef851ff28b1b63b "pdflatex"
+  "Main.tex" 1779645590.0402 22720 3ae32e0aea6386706cf2ecd8d00f8e65 ""
+  "Main.toc" 1779645591.51177 1934 53f7cad038a04a99adbdcd5cc9075d19 "pdflatex"
   "UGR-MARCA-01-color.jpg" 1779487703.16592 160595 cbaefa71b76665c10de50605cd884f8b ""
   (generated)
   "Main.aux"
