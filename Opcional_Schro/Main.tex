@@ -287,27 +287,94 @@ PARA EXPRESIONES TEORICAS https://www.fisicacuantica.es/oscilador-armonico/
 En esta sección mostrare los resultados obtenidos, se divide en tres sub-secciones, en las dos primeras cambiaremos las funciones de onda de entrada y observaremos su comportamiento mientras que en la ultimo sub-sección compararemos el comportamiento clásico con el comportamiento cuántico.
 
 \subsection{Auto funciones}
+Para esta sección usaremos las autofunciones del oscilador armónico cuántico como función de onda inicial, para ello partimos de la ecuación de Schrödinger independiente del tiempo, la cual se resuelve mediante el método de separación de variables, obteniendo así la siguiente expresión:
+
+\begin{equation}
+    \hat{H}\psi(x) =[-\dfrac{d^2}{dx^2} + \dfrac{\omega^2}{4}\ (x-0.5)^2] \psi(x) = E\psi(x)
+\end{equation}
+Haciendo el cambio de variable $y = x - 0.5$, llegamos a la siguiente expresión:
+\begin{equation}
+    [-\dfrac{d^2}{dy^2} + \dfrac{\omega^2}{4}\ y^2] \psi(y) = E\psi(y)
+\end{equation}
+
+Ecuación que se corresponde con la ecuación de Schrödinger para el oscilador armónico cuántico, cuya solución es conocida y se expresa en términos de las funciones de Hermite $H_n(\alpha y)$\footnote{Expresión de los polinomios de Hermite en el apendice} y la función gaussiana $e^{-\alpha^2 y^2/2}$, el proceso de resolución se puede seguir en \cite{SolucionSchro}, donde en la pagina web se usa un valor $\alpha = \sqrt{\dfrac{m\ \omega}{\hbar}}\rightarrow \sqrt{\omega/2}$. Tras utilizar las expresiones de las funciones de Hermite y la función gaussiana, obtenemos la siguiente expresión para las autofunciones del oscilador armónico cuántico:
+\begin{equation}
+    \psi_n(x) = C_n e^{-\alpha^2\ y^2/2} H_n(\alpha y) \rightarrow y = x - 0.5 \rightarrow \psi_n(x) = C_n e^{-\alpha^2\ (x-0.5)^2/2} H_n(\alpha (x-0.5))
+\end{equation}
+
+Donde $C_n$ es una constante de normalización que se determina a partir de la condición de normalización de la función de onda, es decir, que la integral del cuadrado de la función de onda sobre todo el espacio sea igual a 1. Dejaremos la expresión de $C_n$ sin escribir, ya que en el programa se ha calculado numéricamente a través de la normalización de la función de onda.
+
+
+A continuación se muestran los resultados obtenidos para las autofunciones del oscilador armónico cuántico, para ello se han utilizado las autofunciones correspondientes al valor de $n = 4$, aunque en el repositorio se pueden encontrar los resultados para otros valores de $n$.
 
 
 \subsubsection{Conservación de la norma de la función de onda}
 
+Anteriormente se ha mencionado que con el metodo de Crank-Nicolson se garantiza la conservación de la norma de la función de onda a lo largo del tiempo, para comprobar esto se ha calculado la norma de la función de onda en cada paso de tiempo, para ello se comenzo normlaizando la función de onda en el tiempo inicial \ref{fig:Codigo_norma}
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Image/Code/Norma.png}}
+    \caption{}
+    \label{fig:codigo_norma}
+\end{figure}
+
+Al obtener la función de onda normalizada en el tiempo inicial, se ha calculado la norma de la función de onda en cada paso de tiempo, obteniendo así la siguiente gráfica:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Auto/n_4/simulacion_Norma.png}}
+    \caption{}
+    \label{fig:auto_norm}
+\end{figure}
+
+Como se puede observar en la gráfica \ref{fig:auto_norm}, la norma de la función de onda se mantiene constante a lo largo del tiempo, lo que confirma que el método de Crank-Nicolson garantiza la conservación de la norma de la función de onda durante la evolución temporal.
 \subsubsection{Evolución de la probabilidad}
 
 \subsubsection{Parte real e imaginaria de la función de onda}
 
 \subsubsection{Valor medio de $x$ y $p$}
+En esta sección se ha calculado el valor medio de la posición $x$ y el momento $p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevos sacadas de \cite{SolucionSchro}) :
+\begin{equation}
+    \langle x \rangle = \int_{-\infty}^{\infty} x |\psi(x,t)|^2 dx
+\end{equation}
+
+\begin{equation}
+    \langle p \rangle = -i \int_{-\infty}^{\infty} \psi^*(x,t) \dfrac{\partial}{\partial x} \psi(x,t) dx
+\end{equation}
+
+Para el valor medio de $x$ y $p$ en las autofunciones del oscilador armónico cuántico obtendremos los siguientes resultados teóricos:
+\begin{equation}
+    \langle x \rangle_n =  \langle y \rangle_n + 0.5
+\end{equation}
+Donde $\langle y \rangle_n$ es el valor medio de $y$ en las autofunciones, el cual, es igual a $0\ \forall n$; por lo que el valor medio de $x$ en las autofunciones del oscilador armónico cuántico es igual a $0.5$ para todas las autofunciones.
+
+\begin{equation}
+    \langle p \rangle_n = 0
+\end{equation}
+
+Para el calculo numérico del valor medio de $x$ y $p$, se han utilizado los equivalentes discretizados de las expresiones teóricas, a continuación se muestra la aplicación en nuestro programa:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Image/Code/Valor_Medio.png}}
+    \caption{}
+    \label{fig:codigo_valor_medio}
+\end{figure}
+
+Los resultados obtenidos para el valor medio de $x$ y $p$ se muestran en la siguiente gráfica:
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Auto/n_4/Resumen_Valor_Medio.png}}
+    \caption{}
+    \label{fig:auto_valor_medio}
+\end{figure}
+
 
 \subsubsection{Principio de incertidumbre y valor medio de $H$}
 
 
 
-% AQUI VA CONSERVACION DE NORMA
-
-% AQUI VA EVOLUCION DE PROBABILIDAD
-
-% AQUI VA VALOR MEDIO DE X, P Y
-
-% AQUI VA PRINCIPIO DE INCERTIDUMBRE
 
 %Parte real e imaginaria
 \subsection{Función Inicial Gaussiana}
@@ -320,7 +387,7 @@ En esta sección mostrare los resultados obtenidos, se divide en tres sub-seccio
     \includegraphics[width=0.8\linewidth]{Video/Func/simulacion_Norma.png}
     }
     \caption{}
-    \label{fig:schrodinger_time}
+    \label{fig:schrodinger_norm}
 \end{figure}
 
 
@@ -332,7 +399,7 @@ En esta sección mostrare los resultados obtenidos, se divide en tres sub-seccio
     \href{https://wetzap.github.io/Propuestos_Compua/Opcional_Schro/Video/Func/simulacion_Phi_Prob.mp4}{
     \includegraphics[width=0.8\linewidth]{Video/Func/simulacion_Phi_Prob_captura.png}
     }
-    \caption{Evolución temporal del paquete de ondas. Haga clic en la imagen o en el icono de video para ver la animación en el repositorio de GitHub.}
+    \caption{}
     \label{fig:schrodinger_time}
 \end{figure}
 
@@ -340,12 +407,40 @@ En esta sección mostrare los resultados obtenidos, se divide en tres sub-seccio
 
 \subsubsection{Parte real e imaginaria de la función de onda}
 
+\begin{figure}[H]
+    \centering
+
+    \href{https://wetzap.github.io/Propuestos_Compua/Opcional_Schro/Video/Func/simulacion_Juntos.mp4}{
+    \includegraphics[width=0.8\linewidth]{Video/Func/simulacion_Juntos_captura.png}
+    }
+    \caption{}
+    \label{fig:schrodinger_time}
+\end{figure}
+
+
+
 \subsubsection{Valor medio de $x$ y $p$}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Video/Func/Resumen_Valor_Medio.png}
+    \caption{}
+    \label{fig:schrodinger_time}
+\end{figure}
+
 
 \subsubsection{Principio de incertidumbre y valor medio de $H$}
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Video/Func/Resumen_Temporal.png}
+    \caption{}
+    \label{fig:schrodinger_time}
+\end{figure}
 \subsection{Comparación con modelo Clásico}
+
+
+
 
 \section{Conclusiones}
 
@@ -453,6 +548,8 @@ A continuación se muestra el procedimiento que emplearemos nosotros:
 \end{enumerate}
 
 \subsection{Aproximación por el método de diferencias centrales.}
+
+\subsection{Polinomios de Hermite.}
 
 \bibliographystyle{apsrev}
 \bibliography{biblio,references}
