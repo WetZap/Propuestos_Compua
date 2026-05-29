@@ -69,13 +69,15 @@ En **macOS**, puedes instalar las dependencias fácilmente usando [Homebrew](htt
 ```bash
 brew install gcc gnuplot ffmpeg coreutils
 ```
-*(Nota: El compilador `gfortran` viene incluido en el paquete `gcc` de Homebrew).*
-Por si necesitas instalar Homebrew primero (si no lo tienes):
+
 
 Si no tuvieras Homebrew instalado en tu Mac, primero tienes que abrir la Terminal y ejecutar este comando:
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
+*(Nota: El compilador `gfortran` viene incluido en el paquete `gcc` de Homebrew).*
+Por si necesitas instalar Homebrew primero (si no lo tienes):
 
 ## Cómo ejecutar
 
