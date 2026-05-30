@@ -1,7 +1,6 @@
 module hermite_poly
    implicit none
 contains
-
    ! Función para calcular Hn(x) utilizando la relación de recurrencia
    real*8 function hermite(n, x)
       integer, intent(in) :: n
@@ -33,14 +32,16 @@ contains
 
       hermite = h_curr
    end function hermite
-
 end module hermite_poly
 
 
 program Resolucion
+   ! Empleamos el módulo de los polinomios de Hermite
    use hermite_poly
    implicit none
-   real*8 delta_x, delta_t, Longitud, omega, pi, valor_promedio_x, valor_promedio_p,norma, norma_inicial,hamiltoniano, incert_x, incert_p, valor_promedio_x_2,omega_2, valor_alpha, valor_promedio_p_2
+   real*8 delta_t, valor_promedio_p,hamiltoniano, incert_p, valor_promedio_p_2
+   real * 8 delta_x, valor_promedio_x, valor_promedio_x_2, incert_x
+   real *8 omega, omega_2, x_0, sigma, pi , Longitud, norma_inicial,norma, valor_alpha
    real*8, dimension(:), allocatable :: V, x_discreto, tiempo_discreto
    complex*16, dimension(:), allocatable :: alpha, gammia
    complex*16, dimension(:), allocatable :: beta, q, phi, phi_aux,dphi_dx, dphi_dx_2
@@ -56,7 +57,7 @@ program Resolucion
    N = 10000
    pi = 4.d0 * datan(1.d0)
    norma = 0.d0
-   corte = 10 ! Escribe 1 frame cada 5 iteraciones
+   corte = 10 ! Escribe 1 frame cada 10 iteraciones
 
 
    ! Leer valor_n desde los argumentos de la terminal
@@ -74,24 +75,29 @@ program Resolucion
       dir_out = "Data/Auto" ! Ruta por defecto
    end if
 
+   ! Paramentros del oscilador armónico y del proceso de evolución temporal
    omega =  delta_t / (delta_x**2)
    omega_2 = 1500.d0
 
-
+   ! Reservamos memoria para los arrays
    allocate(V(0:S), q(0:S), phi(0:S), phi_aux(0:S), x_discreto(0:S), dphi_dx(0:S), dphi_dx_2(0:S))
    allocate(alpha(0:S-1), beta(0:S-1), gammia(0:S-1), tiempo_discreto(0:N-1))
+
 
    ! Inicializacion de arrays (vectorizado)
    x_discreto = [(i * delta_x, i=0, S)]
    tiempo_discreto = [(i * delta_t, i=0, N-1)]
 
+   ! Inicializamos la variable q a cero en los bordes
    q(0) = (0.d0, 0.d0)
    q(S) = (0.d0, 0.d0)
 
+   ! Calculamos el potencial armónico en cada punto del espacio
    do i = 0, S
       V(i) = (omega_2**2 / 4.d0) * (x_discreto(i) - 0.5)**2
    end do ! Potencial armónico
 
+   ! Calculamos los coeficientes de la matriz tridiagonal para el Algoritmo de Thomas
    gammia(S-1) = 1.d0/(-2.d0 + (2.d0*(0.d0,1.d0)/omega - V(S-1)*delta_x**2))
    alpha(S-1) = (0.d0, 0.d0)
 
@@ -100,12 +106,13 @@ program Resolucion
       gammia(i) = 1.d0/(-2.d0 + (2.d0*(0.d0,1.d0)/omega - V(i)*delta_x**2 + alpha(i)))
    end do
 
+   !------------------------
    ! Funcion de onda inicial
+   !------------------------
 
    valor_alpha = sqrt(omega_2/2.d0)
    do i = 1, S-1
       phi(i) = hermite(valor_n, valor_alpha*(x_discreto(i) - 0.5)) * exp(-(valor_alpha**2 * (x_discreto(i) - 0.5)**2)/2)
-
    end do
 
    !---------------------------------------------------
@@ -136,7 +143,7 @@ program Resolucion
 
 
    do i = 0, N-1
-      ! Escribimos datos a disco SOLO cada 'corte' iteraciones
+      ! Escribimos datos a disco cada corte iteraciones
       if (mod(i, corte) == 0) then
 
          norma = sum(abs(phi)**2) * delta_x
@@ -186,7 +193,7 @@ program Resolucion
          incert_p = sqrt(valor_promedio_p_2 - valor_promedio_p**2)
          incert_x = sqrt(valor_promedio_x_2 - valor_promedio_x**2)
 
-
+         ! Guardamos los datos en disco
          do j = 0, S
             ! Usamos formatos explicitos para escribir mas rapido que el asterisco (*)
             write(10,'(2ES15.6)') x_discreto(j), aimag(phi(j))
@@ -194,12 +201,13 @@ program Resolucion
             write(12,'(2ES15.6)') x_discreto(j), abs(phi(j))**2
             write(16,'(3ES15.6)') x_discreto(j), real(phi(j),8), aimag(phi(j))
          end do
-
+         ! Escribimos dos línea en blanco para separar los datos de cada frame
          write(10,*) ; write(10,*)
          write(11,*) ; write(11,*)
          write(12,*) ; write(12,*)
          write(16,*) ; write(16,*)
 
+         ! Escribimos el valor medio de x, p, la norma, el hamiltoniano y el producto de incertidumbres
          write(13,'(2ES15.6)') tiempo_discreto(i), valor_promedio_x
          write(14,'(2ES15.6)') tiempo_discreto(i), valor_promedio_p
          write(15,'(2ES15.6)') tiempo_discreto(i), norma
@@ -208,27 +216,34 @@ program Resolucion
          write(19,'(ES15.6)') tiempo_discreto(i)
       end if
 
-      ! Actualizacion temporal (Algoritmo de resolucion)
+      ! Actualizacion temporal
+      ! Calculamos el valor de beta.
       beta(S-1) = (0.d0, 0.d0)
       do j = S-2, 0, -1
          beta(j) = gammia(j+1)*((4.d0*(0.d0,1.d0)*phi(j+1))/omega - beta(j+1))
       end do
 
+      ! Calculamos el valor de q mediante sustitución hacia adelante
       do j = 1, S-1
          q(j) = alpha(j-1)*q(j-1) + beta(j-1)
       end do
+
+      ! Calculamos la función de onda en el siguiente paso de tiempo
 
       do j = 1, S-1
          phi_aux(j) = q(j) - phi(j)
       end do
 
+      ! Actualizamos phi para el siguiente paso de tiempo y aplicamos condiciones de frontera
       phi = phi_aux
       phi(0) = (0.d0, 0.d0)
       phi(S) = (0.d0, 0.d0)
    end do
 
-   close(10) ; close(11) ; close(12) ; close(13) ; close(14) ; close(15); close(16); close(17); close(18)
+   ! Cerramos los archivos
+   close(10) ; close(11) ; close(12) ; close(13) ; close(14) ; close(15); close(16); close(17); close(18); close(19)
 
+   ! Deallocamos memoria
    deallocate(V, alpha, beta, q, phi, gammia, phi_aux, x_discreto, tiempo_discreto, dphi_dx, dphi_dx_2)
 
 end program Resolucion

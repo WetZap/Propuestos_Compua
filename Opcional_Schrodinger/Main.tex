@@ -74,7 +74,7 @@
 \centering
     {\HRule{2 pt}} \\
     \vspace{0.5cm}
-    {\scshape\Huge Simulación de la ecuación de Schrödinger dependiente del tiempo para el oscilador armónico cuántico.}  \\
+    {\Huge Simulación de la ecuación de Schrödinger dependiente del tiempo para el oscilador armónico cuántico.}  \\
     %AQUI SE PONE EL TITULO
     \vspace{1 mm}
     
@@ -123,9 +123,9 @@ En este proyecto estudiaremos la evolución temporal de diferentes funciones de 
 Además, compararemos el comportamiento cuántico del sistema con el comportamiento clásico del oscilador armónico, mostrando así las diferencias entre ambos comportamientos y cómo la mecánica cuántica se diferencia de la mecánica clásica en este sistema. Así como el limitede la mecánica cuántica con la mecánica clásica, mostrando cómo el comportamiento cuántico se aproxima al comportamiento clásico en ciertas condiciones.
 
 
+El proyecto se divide en varias secciones, en la primera sección se presenta el problema y se describe la metodología que se ha seguido para resolverlo, en la segunda sección se presentan los resultados obtenidos para las diferentes funciones de onda estudiadas, y en la última sección se presentan las conclusiones obtenidas a partir de los resultados obtenidos.
 
-
-
+El codigo que se empleara en este proyecto se encuentra disponible en el siguiente repositorio de GitHub: \url{https://github.com/WetZap/Propuestos_Computacional/tree/main/Opcional_Schrodinger}
 \section{Presentación del problema}
 En la teoría de Mecánica Cuántica el comportamiento de un sistema viene descrito por su función de onda $\Psi(x,t)$, la cual debe cumplir la famosa ecuación de Schrödinger:
 
@@ -257,21 +257,22 @@ La expresión del potencial que se ha utilizado para el oscilador armónico cuá
 
 Los parametros que se han utilizado para el estudio del oscilador armónico cuántico son los siguientes:
 \begin{itemize}
-    \item $\omega_{osc} = 200 o 800$: Frecuencia del oscilador armónico (Se considera 200 hasta que se diga lo contrario).
+    \item $\omega_{osc} = 200\ \&\&\ 800$: Frecuencia del oscilador armónico (Se considera 200 hasta que se diga lo contrario).
     \item $x_0 = 0.5$: Posición de equilibrio del oscilador armónico.
-    \item $x_0^{gauss} = 0.3$
+    \item $x_0^{gauss} = 0.3$ Desplazamiento de la función gaussiana.
+    \item $\sigma = 1/16\ \&\& 1/10$: Ancho de la función gaussiana.
     \item $L = 1$: Tamaño del espacio en el que se encierra el sistema.
     \item $S = 1000$: Número de puntos en la malla espacial.
     \item $\Delta t = 0.0001 $: Paso de tiempo para la evolución temporal.
     \item $N = 5000$: Número de pasos de tiempo para la evolución temporal.
-    \item $\Delta x = 0.001$: Paso espacial para la discretización del espacio.
+    \item $\Delta x =\ L/S\ =\ 0.001$: Paso espacial para la discretización del espacio.
 \end{itemize}
 
 
 
 
 \section{Resultados}
-En esta sección mostrare los resultados obtenidos, se divide en tres sub-secciones, en las dos primeras cambiaremos las funciones de onda de entrada y observaremos su comportamiento mientras que en la ultimo sub-sección compararemos el comportamiento clásico con el comportamiento cuántico.
+En esta sección se mostrarán los resultados obtenidos, se divide en tres sub-secciones, en las dos primeras cambiaremos las funciones de onda de entrada y observaremos su comportamiento mientras que en la ultima sub-sección compararemos el comportamiento clásico con el comportamiento cuántico.
 
 \subsection{Auto funciones}
 \label{subsec:Autofunciones}
@@ -290,7 +291,7 @@ Ecuación que se corresponde con la ecuación de Schrödinger para el oscilador 
     \psi_n(x) = C_n e^{-\alpha^2\ y^2/2} H_n(\alpha y) \rightarrow y = x - 0.5 \rightarrow \psi_n(x) = C_n e^{-\alpha^2\ (x-0.5)^2/2} H_n(\alpha (x-0.5))
 \end{equation}
 
-Donde $C_n$ es una constante de normalización que se determina a partir de la condición de normalización de la función de onda, es decir, que la integral del cuadrado de la función de onda sobre todo el espacio sea igual a 1. Dejaremos la expresión de $C_n$ sin escribir, ya que en el programa se ha calculado numéricamente a través de la normalización de la función de onda.
+Donde $C_n$ es una constante de normalización que se determina a partir de la condición de normalización de la función de onda, es decir, la integral del cuadrado de la función de onda sobre todo el espacio sea igual a 1. Dejaremos la expresión de $C_n$ sin escribir, ya que en el programa se ha calculado numéricamente a través de la normalización de la función de onda.
 
 
 A continuación se muestran los resultados obtenidos para las autofunciones del oscilador armónico cuántico, para ello se han utilizado las autofunciones correspondientes al valor de $n = 4$, aunque en el repositorio se pueden encontrar los resultados para otros valores de $n$.
@@ -298,7 +299,7 @@ A continuación se muestran los resultados obtenidos para las autofunciones del 
 
 \subsubsection{Conservación de la norma de la función de onda}
 
-Anteriormente se ha mencionado que con el metodo de Crank-Nicolson se garantiza la conservación de la norma de la función de onda a lo largo del tiempo, para comprobar esto se ha calculado la norma de la función de onda en cada paso de tiempo, para ello se comenzo normlaizando la función de onda en el tiempo inicial \ref{fig:Codigo_norma}
+Anteriormente se ha mencionado que con el metodo de Crank-Nicolson se garantiza la conservación de la norma de la función de onda a lo largo del tiempo, para comprobar esto se ha calculado la norma de la función de onda en cada paso de tiempo, para ello se comenzo normlaizando la función de onda en el tiempo inicial \ref{fig:codigo_norma}
 
 \begin{figure}[H]
     \centering{
@@ -354,7 +355,9 @@ Como se observa en la gráfica comenzamos con una parte imaginaria nula y toda l
 
 
 \subsubsection{Valor medio de $x$ y $p$}
-En esta sección se ha calculado el valor medio de la posición $x$ y el momento $p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevos sacadas de \cite{SolucionSchro}) :
+
+En esta sección se ha calculado el valor medio de la posición $x$ y el momento $p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevos sacadas de \cite{SolucionSchro}):
+
 \begin{equation}
     \langle x \rangle = \int_{-\infty}^{\infty} x |\psi(x,t)|^2 dx
 \end{equation}
@@ -544,7 +547,7 @@ Si en vez de escoger $n = 20$ escogemos un valor de $n$ más alto, como es el ca
 
 \subsubsection{Explicación del comportamiento del valor de $\omega$}
 
-El comportamiento oscilante que se osbserva en \ref{fig:auto_time_n20} se puede eliminar si escogemos un valor de $\Delta t$ suficientemente pequeño. Además, el valor de $\omega$ afecta directamente a los resultados de $H_n(\alpha y)$, se comprobó que para valores de $\omega$ bajos, como es el caso de $\omega = 200$, el valor de $H_n(\alpha y)$ multiplicado por el valor de la exponencial que acompaña los polinomios de Hermite sea mucho mayor que si escogemos un valor de $\omega$ alto, como es el caso de $\omega = 800$. 
+El comportamiento oscilante que se osbserva en \ref{fig:auto_time_n20} se puede eliminar si escogemos un valor de $\Delta t$ suficientemente pequeño. Además, el valor de $\omega$ afecta directamente a los resultados de $H_n(\alpha y)$, se comprobó que para valores de $\omega$ bajos, como es el caso de $\omega = 200$, el valor de $H_n(\alpha y)$ multiplicado por el valor de la exponencial que acompaña los polinomios de Hermite sea mucho mayor que si escogemos un valor de $\omega$ alto, como es el caso de $\omega = 800$.\\ 
 
 
 \Large Modelo Clásico \normalsize\\\\
@@ -677,7 +680,7 @@ La solución formal de esta ecuación incluye el operador de evolución temporal
 
 Euler Explícito:
 \begin{equation}
-    \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \Psi^n(x) \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \Delta t\ \hat{H} \Psi_n(x)
+    \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \Psi_n(x) \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \Delta t\ \hat{H} \Psi_n(x)
 \end{equation}
 
 Euler Implícito:
