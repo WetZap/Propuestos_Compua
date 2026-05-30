@@ -14,7 +14,7 @@ set samples 1500
 comando_ffmpeg = sprintf("| ffmpeg -y -f image2pipe -vcodec png -framerate 20 -i - -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p %s", video_out)
 set output comando_ffmpeg
 
-omega = 1500.0
+omega = 200.0
 masa  = 0.5
 pi    = 4.0*atan(1.0)
 hbar  = 1.0

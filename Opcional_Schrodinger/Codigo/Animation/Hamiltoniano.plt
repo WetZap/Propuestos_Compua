@@ -8,11 +8,11 @@ set output video_out
 set xlabel x_label_t
 set ylabel y_label_t
 set grid
+
 # 2.5 Cálculo del valor teórico 
-omega = 800.0
+omega = 200.0
 Hamiltoniano_teorico =  (2 * valor_n + 1) * omega / 2.0
 
-print sprintf("Valor teórico del Hamiltoniano: %f", Hamiltoniano_teorico)
 
 # 3. Rangos: Ajustamos para incluir tanto el archivo como el valor teórico
 min_total_y = (STATS_min_y < Hamiltoniano_teorico) ? STATS_min_y : Hamiltoniano_teorico

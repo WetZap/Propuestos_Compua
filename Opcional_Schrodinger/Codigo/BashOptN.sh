@@ -324,29 +324,29 @@ for n in "${VALORES_N[@]}"; do
     #render_espaciales   "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
     render_Prob_Auto    "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
     render_temporales   "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
-    #render_juntos       "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
-    #render_Principio    "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
-    #render_Hamiltoniano "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
+    render_juntos       "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
+    render_Principio    "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
+    render_Hamiltoniano "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO" "$n"
 
 done
 
 for n in "${VALORES_N[@]}"; do
     DIR_DATOS_N_AUTO="$DIR_DATOS_OUT/n_${n}"
     DIR_GIFS_N_AUTO="$DIR_GIFS_SISTEMA/n_${n}"
-    #combinar_imagenes_Valor_Medio "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO"
-    #combinar_imagenes_Temporal "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO"
+    combinar_imagenes_Valor_Medio "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO"
+    combinar_imagenes_Temporal "$DIR_DATOS_N_AUTO" "$DIR_GIFS_N_AUTO"
 done
 
 # Los espaciales no hacen falta, se hacen en juntos
 #render_espaciales "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
-#render_Prob_Func     "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
-#render_temporales "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
-#render_juntos     "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
-#render_Principio  "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"  "0"
-#render_HamiltonianoFunc  "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"   "0"
+render_Prob_Func     "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
+render_temporales "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
+render_juntos     "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2" "0"
+render_Principio  "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"  "0"
+render_HamiltonianoFunc  "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"   "0"
 
-#combinar_imagenes_Valor_Medio "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"
-#combinar_imagenes_Temporal "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"
+combinar_imagenes_Valor_Medio "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"
+combinar_imagenes_Temporal "$DIR_DATOS_OUT_2" "$DIR_GIFS_SISTEMA_2"
 
 render_Clasicos "$DIR_DATOS_OUT_3" "$DIR_GIFS_SISTEMA_3"
 render_ClasicoVSCuantico "$DIR_DATOS_OUT_3" "$DIR_GIFS_SISTEMA_3" "$DIR_DATOS_OUT_2"

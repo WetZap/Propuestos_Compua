@@ -11,7 +11,6 @@ set grid
 
 # 3. Rangos
 rango_y = STATS_max_y - STATS_min_y
-print "Rango en y: ", rango_y
 
 if ((rango_y*1000) < 1.0 || (rango_y == 0.0)) {
     margen_y = abs(STATS_max_y) * 0.5
@@ -25,6 +24,7 @@ if (archivo_entrada eq "Valor_E.dat") {
 
 }else{set xrange [STATS_min_x : STATS_max_x]
 set yrange [STATS_min_y - margen_y : STATS_max_y + margen_y]}
+
 # 4. Gráfica estática completa
 plot archivo_entrada using 1:2 with points linecolor rgb "red" title "Evolución-Clásica", archivo_entrada using 1:3 with points pointtype 5  linecolor rgb "blue" title "Evolución-Cuántica"
 

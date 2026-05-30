@@ -20,7 +20,7 @@ program Funcion
    corte = 5 ! Escribe 1 frame cada 5 iteraciones
 
    ! Inicializacion de parámetros del oscilador armónico
-   x_0 = 0.5d0
+   x_0 = 0.3d0
    sigma = 1.d0/16.d0
 
    ! Paramentros del oscilador armónico y del proceso de evolución temporal

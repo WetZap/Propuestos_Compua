@@ -53,7 +53,7 @@ program Resolucion
    S = 1000
    Longitud = 1.d0
    delta_x = Longitud / real(S, 8)
-   delta_t = 0.0000001d0
+   delta_t = 0.0001d0
    N = 10000
    pi = 4.d0 * datan(1.d0)
    norma = 0.d0
@@ -77,7 +77,7 @@ program Resolucion
 
    ! Paramentros del oscilador armónico y del proceso de evolución temporal
    omega =  delta_t / (delta_x**2)
-   omega_2 = 1500.d0
+   omega_2 = 200.d0
 
    ! Reservamos memoria para los arrays
    allocate(V(0:S), q(0:S), phi(0:S), phi_aux(0:S), x_discreto(0:S), dphi_dx(0:S), dphi_dx_2(0:S))
