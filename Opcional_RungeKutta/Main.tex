@@ -1,0 +1,144 @@
+\documentclass[10pt,onecolumn]{article}
+
+
+%Aquí vienen todos los paquetes que se van a usar
+
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage[bottom]{footmisc}
+\usepackage{comment}
+
+\usepackage{subcaption} % Añade esto en el preámbulo si no lo tienes
+\usepackage{colortbl} %Permite agregar color a las celdas de las tablas.
+\usepackage{mathtools} %Contiene herramientas adicionales para componer fórmulas matemáticas en LaTeX.
+\usepackage{algorithm2e} %Facilita la sintaxis de los algoritmos.
+%\usepackage[T1]{fontenc} %Hace posible escribir en diferentes idiomas.
+\usepackage{lmodern} %Carga la fuente Latin modern en el documento.
+\usepackage{float} %Hace posible el uso de [H] en las tablas y gráficas.
+\usepackage{blindtext} %Ncesario para usar este tipo de comentarios.
+\usepackage{multicol} %Posibilidad (no mostrada aquí) de escribir en varias columnas para una misma página.
+\usepackage{wrapfig} %Permite que las figuras y tablas se ajusten mejor al texto.
+\usepackage{breqn} %Ajusta ecuaciones largas al ancho de la página, teniendo que romper y bajar a una fila más abajo parte de la ecuación para que quepa dentro de los márgenes.
+\usepackage{array} %Permite personalizar más ampliamente las columnas de las tablas de LaTeX.
+\usepackage{eurosym} %Posibilidad de usar el símbolo € en el texto.
+\usepackage{amsmath} %Mejoras para la escritura de ecuaciones matemáticas.
+\usepackage{mathrsfs} %Prporciona el alfabeto de letras minúsculas de Ralph Smith.
+\usepackage{indentfirst} %Encaja el primer párrafo de un encabezado del documento, si por ejemplo el primer párrafo queremos que esté sangrado.
+\usepackage{amsthm} %Facilita la escritura de demostraciones de afirmaciones matemáticas de toda clase.
+\usepackage[font=small,labelfont=bf]{caption} %Formatea los títulos de figuras y gráficas.
+\usepackage{graphicx} %Facilita la inclusión de imágenes en LaTeX.
+\usepackage[titles]{tocloft} %Posibilidad de personalizar el formato del Índice.
+\usepackage[hidelinks]{hyperref} %Crea hipervínculos en el PDF generado del documento de texto final, para poder navegar a través y externamente al documento.
+\setlength{\parindent}{12pt} %Establece la sangría de la primera línea de cada párrafo a {...pt}.
+\usepackage{multirow} %Posibilidad de combinar filas de las tablas de LaTeX.
+\usepackage{parskip} %Modifica los espacios entre párrafos para que no haya sangría, sino que se genere un espacio entre medias predeterminado. 
+\usepackage{fancyhdr} %Creación de encabezados y pies de página.
+\usepackage[utf8]{inputenc} %Permite usar caracteres especiales y letras acentuadas directamente en el código LaTeX.
+\usepackage{bm} %Posibilidad de escribir símbolos en negrita en lenguaje matemático. 
+\usepackage{url} %Inclusión de direcciones URL en el documento.
+\usepackage{siunitx} %Permite la escritura de cantidades físicas y unidades en el documento.
+\usepackage{geometry} %Posibilidad de personalizar las dimensiones del documento.
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+
+%Aquí se definen cosas de colores y movidas fancys
+\usepackage[dvipsnames]{xcolor}
+\definecolor{nube}{RGB}{188,108,37}
+\definecolor{salmon}{RGB}{248, 131, 121}
+
+%Aquí tenemos un poco el formateo de la página
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{}
+\rhead{\thepage}
+ \lhead{Simulación del péndulo doble con el algoritmo de Runge-Kutta.}
+
+
+\begin{document}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\renewcommand{\refname}{Bibliography}
+\renewcommand{\tablename}{Table}
+\renewcommand{\contentsname}{Index}
+\renewcommand{\figurename}{Fig.}
+\captionsetup{labelfont={color=nube}}
+\addtocontents{toc}{\hspace{-7.5mm} \textbf{Chapters}}
+\addtocontents{toc}{\hfill \textbf{Page} \par}
+\addtocontents{toc}{\vspace{-2mm} \hspace{-7.5mm} \hrule \par}
+
+\onecolumn
+\begin{titlepage}
+\centering
+    {\HRule{2 pt}} \\
+    \vspace{0.5cm}
+    {\Huge Simulación del péndulo doble con el algoritmo de Runge-Kutta.}  \\
+    %AQUI SE PONE EL TITULO
+    \vspace{1 mm}
+    
+    {\HRule{2 pt}}
+
+    \vspace{1cm}
+    \Large 01/06/2026 \\
+    \vspace{1cm}
+ 
+    \normalfont\Large Universidad de Granada, Facultad de Ciencias \\
+    \vspace{0.5cm}
+    
+    
+     \normalfont\Large Grado en Físicas \\
+    \vspace{0.5cm}
+     \normalfont Física Computacional \\
+    \vspace{1.5cm}
+
+\centering
+    {\includegraphics[width=0.5\textwidth]{Image/Misc/UGR-MARCA-01-color.jpg}\par}
+
+\vfill
+    \vspace{1cm}
+    \scshape\Large Jorge del Rio López\\
+    
+    \vspace{0.5cm}
+
+\vfill
+
+\end{titlepage}
+
+\selectlanguage{Spanish}
+
+\tableofcontents %único comando para manejar TODO el índice.
+\newpage
+
+\HRule{0.5pt} %Controla los márgenes horizontales visibles (líneas) y el grosor de la línea (...pt).
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Introducción}
+
+
+\section{Metodología}
+
+\section{Resultados}
+
+
+
+
+\section{Conclusiones}
+
+
+\section{Apéndice}
+
+
+
+
+\bibliographystyle{apsrev}
+\bibliography{biblio,references}
+
+
+
+
+\end{document}
