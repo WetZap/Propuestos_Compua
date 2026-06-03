@@ -114,18 +114,18 @@
 \HRule{0.5pt} %Controla los márgenes horizontales visibles (líneas) y el grosor de la línea (...pt).
 
 \begin{abstract}
-Estudio de la evolución temporal de varias funciones de ondas sometidas a un pozo armónico, empleando el método de Crank-Nicolson para la resolución numérica de ec. de Schrödinger dependiente del tiempo. Las funciones de onda estudiadas incluyen las autofunciones del sistema y una función gaussiana, mostrando así las diferencias entre los estados estacionarios y los estados no estacionarios del sistema. 
+Estudio de la evolución temporal de varias funciones de ondas sometidas a un pozo armónico, empleando el método de Crank-Nicolson para la resolución numérica de la ecuación de Schrödinger dependiente del tiempo. Las funciones de onda estudiadas incluyen las autofunciones del sistema y una función gaussiana, mostrando así las diferencias entre los estados estacionarios y los estados no estacionarios del sistema. 
 \end{abstract}
 
 \section{Introducción}
 En este proyecto estudiaremos la evolución temporal de diferentes funciones de onda sometidas a un potencial oscilador armónico, veremos el comportamiento de diferentes variables como la probabilidad, el valor medio de la posición, el valor medio del momento, el valor medio de la energía, etc,  para diferentes funciones de onda, mostrando así las diferencias entre los estados estacionarios y los estados no estacionarios del sistema. Para ello emplearemos el método de Crank-Nicolson para la resolución numérica de la ecuación de Schrödinger dependiente del tiempo, lo que nos permitirá obtener una solución aproximada de la función de onda en cada instante de tiempo a partir de su estado inicial.
 
-Además, compararemos el comportamiento cuántico del sistema con el comportamiento clásico del oscilador armónico, mostrando así las diferencias entre ambos comportamientos y cómo la mecánica cuántica se diferencia de la mecánica clásica en este sistema. Así como el limitede la mecánica cuántica con la mecánica clásica, mostrando cómo el comportamiento cuántico se aproxima al comportamiento clásico en ciertas condiciones.
+Además, compararemos el comportamiento cuántico del sistema con el comportamiento clásico del oscilador armónico, mostrando así las diferencias entre ambos comportamientos y cómo la mecánica cuántica se diferencia de la mecánica clásica en este sistema. Así como el límite de la mecánica cuántica con la mecánica clásica, ilustrando cómo el comportamiento cuántico se aproxima al comportamiento clásico en ciertas condiciones.
 
 
 El proyecto se divide en varias secciones, en la primera sección se presenta el problema y se describe la metodología que se ha seguido para resolverlo, en la segunda sección se presentan los resultados obtenidos para las diferentes funciones de onda estudiadas, y en la última sección se presentan las conclusiones obtenidas a partir de los resultados obtenidos.
 
-El codigo que se empleara en este proyecto se encuentra disponible en el siguiente repositorio de GitHub: \url{https://github.com/WetZap/Propuestos_Computacional/tree/main/Opcional_Schrodinger}
+El código que se empleará en este proyecto se encuentra disponible en el siguiente repositorio de GitHub: \url{https://github.com/WetZap/Propuestos_Computacional/tree/main/Opcional_Schrodinger}
 \section{Presentación del problema}
 En la teoría de Mecánica Cuántica el comportamiento de un sistema viene descrito por su función de onda $\Psi(x,t)$, la cual debe cumplir la famosa ecuación de Schrödinger:
 
@@ -136,15 +136,15 @@ En la teoría de Mecánica Cuántica el comportamiento de un sistema viene descr
 Donde $H$ es un operador hermítico, al trabajar en una sola dimensión el gradiente $\nabla^2$ se transforma en una derivada parcial respecto de la variable a estudiar, en este caso trabajaremos con $x$, por lo tanto el operador $\hat{H}$ quedaría de la siguiente forma:
 
 \begin{equation}\label{eq:Operador_H}
-\hat{H} = - [-\dfrac{\hbar^2}{2\ m}\dfrac{\partial^2}{\partial x ^2} + V(x) ]   
+\hat{H} = [-\dfrac{\hbar^2}{2\ m}\dfrac{\partial^2}{\partial x ^2} + V(x) ]   
 \end{equation}
 
-Para evitar trabajar con las constantes que aparecen re escalaremos las coordenadas buscando eliminarlas, para ello $t\rightarrow \hbar\ t$ y $x\rightarrow x\ \dfrac{\hbar}{\sqrt{2m}}$, logrando así convertir $m = 0.5$ y $\hbar = 1$, a partir de aquí trabajaremos con estas coordenadas re escaladas.
+Para evitar trabajar con las constantes que aparecen reescalaremos las coordenadas buscando eliminarlas, para ello $t\rightarrow \hbar\ t$ y $x\rightarrow x\ \dfrac{\hbar}{\sqrt{2m}}$, logrando así convertir $m = 0.5$ y $\hbar = 1$, a partir de aquí trabajaremos con estas coordenadas reescaladas.
 
 
 El potencial que estudiaremos será un potencial muy conocido en la física, el potencial armónico, con ecuación: $V(x)=\dfrac{\omega^{2}}{4}\,{}(x-x_{0})^{2}$
 
-Si resolvemos la ecuación de Schr. mediante el método de separación de variables\footnote{La resolución se encuentra en el apéndice.} llegamos a la expresión de la solución:
+Si resolvemos la ecuación de Schrödinger mediante el método de separación de variables\footnote{La resolución se encuentra en el apéndice.} llegamos a la expresión de la solución:
 \begin{equation}\label{eq:SolucionFormal}
     \Psi(x,t)= e^{-i\ (t-t_0)\  H}\ \psi(x,t_0)
 \end{equation}
@@ -163,7 +163,7 @@ Para llevar a cabo esto, lo primero que haremos será discretizar el espacio $x_
 
 \subsubsection{Función de onda espacial:}
 
-Para la parte espacial de la función de onda, tenemos unas derivada segunda respecto de $x$, por lo que emplearemos el método de diferencias centrales\footnote{Expliación en el apendice.} para esta parte, obteniendo así la siguiente expresión:
+Para la parte espacial de la función de onda, tenemos una derivada segunda respecto de $x$, por lo que emplearemos el método de diferencias centrales\footnote{Explicación en el apéndice.} para esta parte, obteniendo así la siguiente expresión:
 \begin{equation}
     \dfrac{\partial^2 \psi}{\partial x^2} \approx \dfrac{\psi_{j+1}^{n} - 2\psi_{j}^{n} + \psi_{j-1}^{n}}{(\Delta x)^2}
 \end{equation}
@@ -182,7 +182,7 @@ Para la parte temporal de la función de onda, tenemos una derivada primera resp
     \psi_{n+1}(x) =\dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})}\psi_n(x)
 \end{equation}
 
-Donde $\psi_n(x)$ es la función de onda en el tiempo $t_n$ y $\psi_{n+1}(x)$ es la función de onda en el tiempo $t_{n+1}$, con $t_{n+1} = t_n + \Delta t$; el operador $\dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})}$ es el operador de evolución temporal que es hermítico si $\hat{H}$ es hermítico, lo que garantiza la conservación de la norma de la función de onda a lo largo del tiempo.
+Donde $\psi_n(x)$ es la función de onda en el tiempo $t_n$ y $\psi_{n+1}(x)$ es la función de onda en el tiempo $t_{n+1}$, con $t_{n+1} = t_n + \Delta t$; el operador $\dfrac{(1 - i\ \dfrac{\Delta t}{2}\ \hat{H})}{(1 + i\ \dfrac{\Delta t}{2}\ \hat{H})}$ es el operador de evolución temporal que es unitario si $\hat{H}$ es hermítico, lo que garantiza la conservación de la norma de la función de onda a lo largo del tiempo.
 
 
 \section{Metodología}
@@ -213,14 +213,14 @@ Si aplicamos la expresión del operador $\hat{H}$ que se muestra en la ecuación
 \end{equation}
 
 
-Operando sobre la expresión anterior y separando los términos de $q^n_j$ y los demás, obtenemos la siguiente ecuación, para reducir la cantidad de contantes definimos $\omega = \dfrac{\Delta t}{(\Delta x)^2}$:
+Operando sobre la expresión anterior y separando los términos de $q^n_j$ y los demás, obtenemos la siguiente ecuación, para reducir la cantidad de constantes definimos $\omega = \dfrac{\Delta t}{(\Delta x)^2}$:
 \begin{equation}
     -\dfrac{i\ }{2\ }\omega\ q_{j+1}^{n} + (1 + i\ \dfrac{\Delta t}{2}\ V_j + i\ \omega) q_{j}^{n} - \dfrac{i\ }{2 }\omega\  q_{j-1}^{n} = 2\psi^n_j
 \end{equation}
 
-Sacando de factor común el termino $i\ \omega/2$ llegamos a la siguiente expresión:
+Sacando como factor común el término $i\ \omega/2$ llegamos a la siguiente expresión:
 \begin{equation}
-    -q_{j+1}^{n} + (\dfrac{2}{i \omega} +\Delta x^2 V_j + 2) q_{j}^{n} - q_{j-1}^{n} = - \dfrac{4i}{\omega}\psi^n_j \rightarrow q_{j+1}^{n} + (\dfrac{2i}{\omega} -\Delta x^2 V_j - 2) q_{j}^{n}  q_{j-1}^{n} = \dfrac{4i}{\omega}\psi^n_j
+    -q_{j+1}^{n} + (\dfrac{2}{i \omega} +\Delta x^2 V_j + 2) q_{j}^{n} - q_{j-1}^{n} = - \dfrac{4i}{\omega}\psi^n_j \rightarrow q_{j+1}^{n} + (\dfrac{2i}{\omega} -\Delta x^2 V_j - 2) q_{j}^{n} + q_{j-1}^{n} = \dfrac{4i}{\omega}\psi^n_j
 \end{equation}
 
 Con esta expresión, somos capaces de obtener el valor de $q^n_j$ resolviendo un sistema de ecuaciones lineales del tipo $k_1\ q_{j+1}^{n} + k_2\ q_{j}^{n} + k_3\ q_{j-1}^{n} = b_j^n$ con $k_1 = 1$, $k_2 = \dfrac{2i}{\omega} -\Delta x^2 V_j - 2$, $k_3 = 1$ y $b_j^n = \dfrac{4i}{\omega}\psi^n_j$, para resolver este sistema de ecuaciones lineales emplearemos el método de Thomas\footnote{Este método se explica en el apéndice}, el cual es un método eficiente para resolver sistemas de ecuaciones lineales tridiagonales, como el que tenemos en este caso, para poder aplicarlo necesitamos considerar las condiciones de contorno para que concuerden con las convenciones $q_0 = 0$ y $q_S = 0$.
@@ -249,18 +249,18 @@ En esta sección se describen los detalles de la implementación computacional q
 \end{enumerate}
 
 
-\subsection{Expresion de V(x). Oscilador Cuántico}
+\subsection{Expresión de V(x). Oscilador Cuántico}
 La expresión del potencial que se ha utilizado para el oscilador armónico cuántico es la siguiente:
 \begin{equation}\label{eq:Vx}
-    V(x) = \dfrac{\omega_{osc}}{4} (x-x_0)^2
+    V(x) = \dfrac{\omega_{osc}^2}{4} (x-x_0)^2
 \end{equation}
 
-Los parametros que se han utilizado para el estudio del oscilador armónico cuántico son los siguientes:
+Los parámetros que se han utilizado para el estudio del oscilador armónico cuántico son los siguientes:
 \begin{itemize}
-    \item $\omega_{osc} = 200\ \&\&\ 800$: Frecuencia del oscilador armónico (Se considera 200 hasta que se diga lo contrario).
+    \item $\omega_{osc} \in \{200, 800\}$: Frecuencia del oscilador armónico (se considera $200$ salvo indicación contraria).
     \item $x_0 = 0.5$: Posición de equilibrio del oscilador armónico.
-    \item $x_0^{gauss} = 0.3$ Desplazamiento de la función gaussiana.
-    \item $\sigma = 1/16\ \&\& 1/10$: Ancho de la función gaussiana.
+    \item $x_0^{gauss} = 0.3$: Desplazamiento de la función gaussiana.
+    \item $\sigma \in \{1/16, 1/10\}$: Ancho de la función gaussiana.
     \item $L = 1$: Tamaño del espacio en el que se encierra el sistema.
     \item $S = 1000$: Número de puntos en la malla espacial.
     \item $\Delta t = 0.0001 $: Paso de tiempo para la evolución temporal.
@@ -286,7 +286,7 @@ Haciendo el cambio de variable $y = x - 0.5$, llegamos a la siguiente expresión
     [-\dfrac{d^2}{dy^2} + \dfrac{\omega^2}{4}\ y^2] \psi(y) = E\psi(y)
 \end{equation}
 
-Ecuación que se corresponde con la ecuación de Schrödinger para el oscilador armónico cuántico, cuya solución es conocida y se expresa en términos de las funciones de Hermite $H_n(\alpha y)$\footnote{Expresión de los polinomios de Hermite en el apendice} y la función gaussiana $e^{-\alpha^2 y^2/2}$, el proceso de resolución se puede seguir en \cite{SolucionSchro}, donde en la pagina web se usa un valor $\alpha = \sqrt{\dfrac{m\ \omega}{\hbar}}\rightarrow \sqrt{\omega/2}$. Tras utilizar las expresiones de las funciones de Hermite y la función gaussiana, obtenemos la siguiente expresión para las autofunciones del oscilador armónico cuántico:
+Ecuación que se corresponde con la ecuación de Schrödinger para el oscilador armónico cuántico, cuya solución es conocida y se expresa en términos de las funciones de Hermite $H_n(\alpha y)$\footnote{Expresión de los polinomios de Hermite en el apéndice} y la función gaussiana $e^{-\alpha^2 y^2/2}$, el proceso de resolución se puede seguir en \cite{SolucionSchro}, donde en la pagina web se usa un valor $\alpha = \sqrt{\dfrac{m\ \omega}{\hbar}}\rightarrow \sqrt{\omega/2}$. Tras utilizar las expresiones de las funciones de Hermite y la función gaussiana, obtenemos la siguiente expresión para las autofunciones del oscilador armónico cuántico:
 \begin{equation}
     \psi_n(x) = C_n e^{-\alpha^2\ y^2/2} H_n(\alpha y) \rightarrow y = x - 0.5 \rightarrow \psi_n(x) = C_n e^{-\alpha^2\ (x-0.5)^2/2} H_n(\alpha (x-0.5))
 \end{equation}
@@ -299,12 +299,12 @@ A continuación se muestran los resultados obtenidos para las autofunciones del 
 
 \subsubsection{Conservación de la norma de la función de onda}
 
-Anteriormente se ha mencionado que con el metodo de Crank-Nicolson se garantiza la conservación de la norma de la función de onda a lo largo del tiempo, para comprobar esto se ha calculado la norma de la función de onda en cada paso de tiempo, para ello se comenzo normlaizando la función de onda en el tiempo inicial \ref{fig:codigo_norma}
+Anteriormente se ha mencionado que con el método de Crank-Nicolson se garantiza la conservación de la norma de la función de onda a lo largo del tiempo; para comprobarlo se ha calculado la norma en cada paso de tiempo, comenzando por normalizar la función de onda en el instante inicial \ref{fig:codigo_norma}
 
 \begin{figure}[H]
     \centering{
     \includegraphics[width=0.8\linewidth]{Image/Code/Norma.png}}
-    \caption{Codigo para la normalización de la función de onda en el tiempo inicial.}
+    \caption{Código para la normalización de la función de onda en el instante inicial.}
     \label{fig:codigo_norma}
 \end{figure}
 
@@ -338,7 +338,7 @@ En la gráfica se expone la evolución tanto clásica como cuántica, la parte c
 
 
 \subsubsection{Parte real e imaginaria de la función de onda}
-En esta sección se ha calculado la parte real e imaginaria de la función de onda en cada paso de tiempo, para ello se usarón las funciones de real() y aimag() de Fortran. En la siguiente gráfica se muestra la evolución de la parte real e imaginaria de la función de onda a lo largo del tiempo:
+En esta sección se ha calculado la parte real e imaginaria de la función de onda en cada paso de tiempo, para ello se usaron las funciones \texttt{real()} y \texttt{aimag()} de Fortran. En la siguiente gráfica se muestra la evolución de la parte real e imaginaria de la función de onda a lo largo del tiempo:
 
 
 \begin{figure}[H]
@@ -356,7 +356,7 @@ Como se observa en la gráfica comenzamos con una parte imaginaria nula y toda l
 
 \subsubsection{Valor medio de $x$ y $p$}
 
-En esta sección se ha calculado el valor medio de la posición $x$ y el momento $p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevos sacadas de \cite{SolucionSchro}):
+En esta sección se ha calculado el valor medio de la posición $x$ y el momento $p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevo extraídas de \cite{SolucionSchro}):
 
 \begin{equation}
     \langle x \rangle = \int_{-\infty}^{\infty} x |\psi(x,t)|^2 dx
@@ -397,7 +397,7 @@ Como se puede observar en la gráfica \ref{fig:auto_valor_medio}, el valor medio
 
 \subsubsection{Principio de incertidumbre y valor medio de $H$}
 
-En esta sección se ha calculado el valor medio de la energía $H$ y el producto de las incertidumbres $\Delta x \Delta p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevos sacadas de \cite{SolucionSchro}) :
+En esta sección se ha calculado el valor medio de la energía $H$ y el producto de las incertidumbres $\Delta x \Delta p$ en cada paso de tiempo, además se han comparado con los valores teóricos correspondientes a las autofunciones del oscilador armónico cuántico, para ello se han utilizado las siguientes expresiones teóricas (de nuevo extraídas de \cite{SolucionSchro}):
 \begin{equation}
     \langle H \rangle = \int_{-\infty}^{\infty} \psi^*(x,t) \hat{H} \psi(x,t) dx = E_n = \omega (n + \dfrac{1}{2})
 \end{equation}
@@ -463,9 +463,9 @@ En esta sección se ha calculado la evolución de la probabilidad a lo largo del
     \label{fig:schrodinger_time}
 \end{figure}
 
-La gráfica que muestra la evolución de la probabilidad a lo largo del tiempo para nuestra funcón gaussiana, muestra un comportamiento oscilatorio, comportamiento que no presentaban las autofunciones del oscilador armónico cuántico, esto se debe a que la función gaussiana no es un estado estacionario del sistema, lo que significa que su forma cambia a lo largo del tiempo, lo que se refleja en la evolución de la probabilidad, aunque esta evolución es oscilatoria, la probabilidad de encontrar la partícula en cada punto del espacio se mantiene constante a lo largo del tiempo. 
+La gráfica que muestra la evolución de la probabilidad a lo largo del tiempo para nuestra funcón gaussiana, muestra un comportamiento oscilatorio, comportamiento que no presentaban las autofunciones del oscilador armónico cuántico, esto se debe a que la función gaussiana no es un estado estacionario del sistema, lo que significa que su forma cambia a lo largo del tiempo, lo que se refleja en la evolución de la probabilidad, aunque esta evolución es oscilatoria, la norma se mantiene constante a lo largo del tiempo.
 
-Además de mostrar la evolución de la probabilidad se ha mostrado la e trayectoria que seguía el maximo de la probabilidad a lo largo del tiempo, mostrando así el comportamiento oscilatorio de la función gaussiana, aunque esta evolución es oscilatoria, la probabilidad de encontrar la partícula en cada punto del espacio se mantiene constante a lo largo del tiempo.
+Además se ha trazado la trayectoria que sigue el máximo de la densidad de probabilidad a lo largo del tiempo, evidenciando el comportamiento oscilatorio propio de un estado no estacionario.
 
 
 \subsubsection{Parte real e imaginaria de la función de onda}
@@ -481,7 +481,7 @@ En esta sección se ha calculado la parte real e imaginaria de la función de on
     \label{fig:schrodinger_time}
 \end{figure}
 
-Al igual que en la sección de las autofunciones, comenzamos con una parte imaginaria nula y toda la función de onda es real, esto debido a que la función gaussiana utilizada como función de onda inicial es real. A lo largo del tiempo, tanto la parte real como la parte imaginaria de la función de onda evolucionan, mostrando un comportamiento oscilatorio, lo que refleja el hecho de que la función gaussiana no es un estado estacionario del sistema, aunque esta evolución es oscilatoria, la probabilidad de encontrar la partícula en cada punto del espacio se mantiene constante a lo largo del tiempo, lo que confirma que la función gaussiana no es un estado estacionario del sistema.
+Al igual que en la sección de las autofunciones, comenzamos con una parte imaginaria nula y toda la función de onda es real, esto debido a que la función gaussiana utilizada como función de onda inicial es real. A lo largo del tiempo, tanto la parte real como la parte imaginaria evolucionan mostrando un comportamiento oscilatorio, lo que pone de manifiesto que la función gaussiana no es un estado estacionario del sistema. La norma total se mantiene constante, en consonancia con los resultados de la sección anterior.
 
 
 \subsubsection{Valor medio de $x$ y $p$}
@@ -495,7 +495,7 @@ En esta sección se ha calculado el valor medio de la posición $x$ y el momento
     \label{fig:gaus_medio_x_p}
 \end{figure}
 
-Como se puede observar en la gráfica \ref{fig:gaus_medio_x_p}, el valor medio de $x$ y $p$ muestran un comportamiento oscilatorio a lo largo del tiempo. Este comportamiento oscilatorio se debe a que la función gaussiana no es un estado estacionario del sistema, lo que significa que su forma cambia a lo largo del tiempo, lo que se refleja en la evolución de los valores medios de $x$ y $p$. Aunque esta evolución es oscilatoria.
+Como se puede observar en la gráfica \ref{fig:gaus_medio_x_p}, el valor medio de $x$ y $p$ muestran un comportamiento oscilatorio a lo largo del tiempo. Este comportamiento es consecuencia directa de que la función gaussiana no es un estado estacionario del sistema: su forma cambia en cada instante, lo que se refleja en la dinámica de los valores esperados de posición y momento.
 \subsubsection{Principio de incertidumbre y valor medio de $H$}
 
 En esta sección se ha calculado el valor medio de la energía $H$ y el producto de las incertidumbres $\Delta x \Delta p$ en cada paso de tiempo para la función gaussiana, obteniendo así la siguiente gráfica:
@@ -518,7 +518,7 @@ Para las autofunciones del oscilador armónico cuántico, se ha comparado la pro
     P_c(x) dx = \dfrac{dx}{\pi \sqrt{(x_c^2 - x^2)}}
 \end{equation}
 
-Donde $x_c = \sqrt{2E_n/m\omega^2} = \sqrt{4 E_n/\omega^2}$ y $ x= x - x_0$, con $E_n$ el valor de la energía correspondiente a la autofunción utilizada, $m$ la masa de la partícula y $\omega$ la frecuencia del oscilador armónico. Esta expresión nos dá la probabilidad de encontrar la partícula en cada punto del espacio para el modelo clásico del oscilador armónico, esta expresión se ha utilizado para comparar con la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico, mostrando así las diferencias entre el comportamiento clásico y el comportamiento cuántico del sistema.
+Donde $x_c = \sqrt{2E_n/m\omega^2} = \sqrt{4 E_n/\omega^2}$ y $ x= x - x_0$, con $E_n$ el valor de la energía correspondiente a la autofunción utilizada, $m$ la masa de la partícula y $\omega$ la frecuencia del oscilador armónico. Esta expresión nos dá la probabilidad de encontrar la partícula en cada punto del espacio para el modelo clásico del oscilador armónico, esta expresión se ha utilizado para comparar con la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico, poniendo de manifiesto el contraste entre el comportamiento clásico y el cuántico.
 
 Conforme aumentamos el valor de $n$ de las autofunciones, la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico se acerca cada vez más a la expresión propuesta para el modelo clásico del oscilador armónico, lo que refleja el hecho de que a medida que aumentamos el valor de $n$, las autofunciones del oscilador armónico cuántico se acercan cada vez más a los estados clásicos del sistema, lo que confirma la correspondencia entre el comportamiento clásico y el comportamiento cuántico del sistema, esto se muestra para el valor  de  $n = 20$ en la siguiente gráfica:
 
@@ -531,7 +531,7 @@ Conforme aumentamos el valor de $n$ de las autofunciones, la evolución de la pr
     \caption{Evolución de la probabilidad a lo largo del tiempo.}
     \label{fig:auto_time_n20}
 \end{figure}
-En este caso el valor de $\omega$ lo hemos cambiado a $800$ para que se pueda observar mejor la evolución de la probabilidad, ya que, si escogemos un valor de $\omega$ es bajo la evolución de la probabilidad oscila enormenemente.
+En este caso el valor de $\omega$ se ha cambiado a $800$ para que la evolución de la probabilidad sea más nítida, ya que con un valor de $\omega$ bajo la distribución oscila enormemente.
 
 Si en vez de escoger $n = 20$ escogemos un valor de $n$ más alto, como es el caso de $n = 80$, la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico se acerca aún más a la expresión propuesta para el modelo clásico del oscilador armónico, lo que refleja el hecho de que a medida que aumentamos el valor de $n$, las autofunciones del oscilador armónico cuántico se acercan cada vez más a los estados clásicos del sistema, la evolución de la probabilidad obtenida se muestra en la siguiente gráfica, en este caso el valor es $\omega=1500$:
 
@@ -550,7 +550,7 @@ Si en vez de escoger $n = 20$ escogemos un valor de $n$ más alto, como es el ca
 El comportamiento oscilante que se osbserva en \ref{fig:auto_time_n20} se puede eliminar si escogemos un valor de $\Delta t$ suficientemente pequeño. Además, el valor de $\omega$ afecta directamente a los resultados de $H_n(\alpha y)$, se comprobó que para valores de $\omega$ bajos, como es el caso de $\omega = 200$, el valor de $H_n(\alpha y)$ multiplicado por el valor de la exponencial que acompaña los polinomios de Hermite sea mucho mayor que si escogemos un valor de $\omega$ alto, como es el caso de $\omega = 800$.\\ 
 
 
-\Large Modelo Clásico \normalsize\\\\
+\subsubsection{Modelo Clásico}
 A continuación se explica el comportamiento clásico del oscilador armónico, para ello se ha utilizado la siguiente expresión para la posición $x(t)$ del oscilador armónico clásico:
 \begin{equation}
     x(t) = A \cos(\omega t + \phi) + x_0
@@ -620,13 +620,13 @@ Si ahora comparamos los valores del Energía inicial frente a la energía del os
     \label{fig:Energia_relativa}
 \end{figure}
 
-Donde se observa un error relativo del orden de $10^{-14}$ lo que confirma que la energía del oscilador armónico clásico es igual a la energía de la función gaussiana, lo que refleja el hecho de que hemos forzado que la energía del oscilador armónico clásico sea igual a la energía de la función gaussiana, lo que hace que el comportamiento del oscilador armónico clásico sea diferente al comportamiento cuántico del sistema, mostrando así las diferencias entre ambos comportamientos.
+El error relativo es del orden de $10^{-14}$, lo que confirma que la energía se conserva con gran precisión durante la evolución. A pesar de haber igualado la energía inicial clásica a la cuántica, las trayectorias difieren entre sí, evidenciando que la concordancia energética no implica equivalencia dinámica entre ambas descripciones.
 
 
 
 \section{Conclusiones}
 
-En este trabajo se ha estudiado la evolución temporal de la función de onda para el oscilador armónico cuántico utilizando el método de Crank-Nicolson, se han comparado los resultados obtenidos para las autofunciones del sistema con los resultados obtenidos para una función gaussiana, mostrando así las diferencias entre los estados estacionarios y los estados no estacionarios del sistema. Además, se ha comparado el comportamiento cuántico del sistema con el comportamiento clásico del oscilador armónico, mostrando así la correspondencia entre ambos comportamientos a medida que aumentamos el valor de $n$ de las autofunciones. Finalmente, se ha explicado el comportamiento del valor medio de $x$ y $p$ para la función gaussiana en comparación con el comportamiento clásico del oscilador armónico, mostrando así las diferencias entre ambos comportamientos debido a la naturaleza probabilística del sistema cuántico.
+En este trabajo se ha estudiado la evolución temporal de la función de onda para el oscilador armónico cuántico utilizando el método de Crank-Nicolson. Se han comparado los resultados para las autofunciones del sistema con los de una función gaussiana, evidenciando el contraste entre estados estacionarios y no estacionarios. Además, se ha analizado la correspondencia con el comportamiento clásico del oscilador armónico, comprobando cómo se recupera el límite clásico al aumentar el valor de $n$. Finalmente, se ha explicado la dinámica de los valores medios de $x$ y $p$ para la función gaussiana, ilustrando las diferencias respecto al oscilador clásico debidas a la naturaleza probabilística del sistema cuántico.
 
 
 Se han obtenido resultados consistentes con la teoría cuántica, como la conservación de la norma de la función de onda, el comportamiento estacionario de las autofunciones del sistema, y la correspondencia entre el comportamiento clásico y el comportamiento cuántico del sistema a medida que aumentamos el valor de $n$ de las autofunciones. Además, se ha mostrado que el método de Crank-Nicolson es una herramienta útil para estudiar la evolución temporal de la función de onda en sistemas cuánticos, ya que garantiza la conservación de la norma de la función de onda durante la evolución temporal.
@@ -666,17 +666,17 @@ Para resolver la segunda ecuación, hacemos el cambio de variable $y = x - 0.5$,
     [-\dfrac{d^2}{dy ^2} + \dfrac{\omega^2}{4}\ y^2]\psi(y) = E\psi(y) 
 \end{equation}
 
-Esta ecuación se resolverá en la los resultados para el caso de la autofunciones \ref{subsec:Autofunciones}
+Esta ecuación se resolverá en la sección de resultados para el caso de las autofunciones \ref{subsec:Autofunciones}
 
 
 \subsection{Aplicación del método de C-N para la ecuación de Schrödinger (solo discretización temporal).}
 
-Sea la ecuación de Schr. unidimensional con ($\hbar = 1$ y $m = 0.5$):
+Sea la ecuación de Schrödinger unidimensional con ($\hbar = 1$ y $m = 0.5$):
 \begin{equation}
     i\ \dfrac{\partial \Psi(x,t)}{\partial t} = [-\dfrac{\partial^2}{\partial x ^2} + V(x)]\Psi(x,t) = \hat{H} \Psi(x,t)
 \end{equation}
 
-La solución formal de esta ecuación incluye el operador de evolución temporal $e^{-i\ (t-t_0)\  H}$, el cual consume una gran cantidad de recursos computacionales, por ello empleamos el método de Crank-Nicholson en una ecución del tipo $\partial_t = -i \hat{H}$. Discretizando el tiempo, obtenemos las siguientes expresiones, dependiendo de si el método es explícito o implícito:
+La solución formal de esta ecuación incluye el operador de evolución temporal $e^{-i\ (t-t_0)\  H}$, el cual consume una gran cantidad de recursos computacionales, por ello empleamos el método de Crank-Nicolson en una ecuación del tipo $\partial_t \Psi = -i \hat{H}\Psi$. Discretizando el tiempo, obtenemos las siguientes expresiones, dependiendo de si el método es explícito o implícito:
 
 Euler Explícito:
 \begin{equation}
@@ -688,17 +688,17 @@ Euler Implícito:
     \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \Psi_{n+1}(x) \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \Delta t\ \hat{H} \Psi_{n+1}(x)
 \end{equation}
 
-El método de Crank-Nicholson se basa en la media entre ambos métodos, obteniendo así la siguiente expresión:
+El método de Crank-Nicolson se basa en la media entre ambos métodos, obteniendo así la siguiente expresión:
 \begin{equation}
     \dfrac{\Psi_{n+1}(x) - \Psi_n(x)}{\Delta t} = -i \hat{H} \dfrac{\Psi_{n+1}(x) + \Psi_n(x)}{2} \Rightarrow \Psi_{n+1}(x) = \Psi_n(x) - i\ \dfrac{\Delta t}{2}\ \hat{H} [\Psi_{n+1}(x) + \Psi_n(x)]
 \end{equation}
 
-Operando sobre la expresion anterior, obtenemos la siguiente ecuación:
+Operando sobre la expresión anterior, obtenemos la siguiente ecuación:
 \begin{equation}
     (1 + i\ \dfrac{\Delta t}{2}\ \hat{H})\Psi_{n+1}(x) = (1 - i\ \dfrac{\Delta t}{2}\ \hat{H})\Psi_n(x)
 \end{equation}
 
-Esta metódo es un método de orden 2, lo que significa que el error de truncamiento es proporcional a $(\Delta t)^2$. Además, es un método incondicionalmente estable, lo que significa que no hay restricciones en el tamaño del paso de tiempo $\Delta t$  garantizando así la estabilidad numérica.
+Este método es de orden 2, lo que significa que el error de truncamiento es proporcional a $(\Delta t)^2$. Además, es un método incondicionalmente estable, lo que significa que no hay restricciones en el tamaño del paso de tiempo $\Delta t$  garantizando así la estabilidad numérica.
 
 \subsection{Algoritmo de Thomas}
 
