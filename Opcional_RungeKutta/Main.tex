@@ -12,8 +12,7 @@
 \usepackage{subcaption} % Añade esto en el preámbulo si no lo tienes
 \usepackage{colortbl} %Permite agregar color a las celdas de las tablas.
 \usepackage{mathtools} %Contiene herramientas adicionales para componer fórmulas matemáticas en LaTeX.
-\usepackage{algorithm2e} %Facilita la sintaxis de los algoritmos.
-%\usepackage[T1]{fontenc} %Hace posible escribir en diferentes idiomas.
+\usepackage[ruled,vlined]{algorithm2e}%\usepackage[T1]{fontenc} %Hace posible escribir en diferentes idiomas.
 \usepackage{lmodern} %Carga la fuente Latin modern en el documento.
 \usepackage{float} %Hace posible el uso de [H] en las tablas y gráficas.
 \usepackage{blindtext} %Ncesario para usar este tipo de comentarios.
@@ -41,6 +40,7 @@
 \usepackage{geometry} %Posibilidad de personalizar las dimensiones del documento.
 \usepackage{graphicx}
 \usepackage{hyperref}
+%\usepackage{revtex4}
 \usepackage{titlesec}
 
 
@@ -65,8 +65,8 @@
 \renewcommand{\contentsname}{Index}
 \renewcommand{\figurename}{Fig.}
 \captionsetup{labelfont={color=nube}}
-\addtocontents{toc}{\hspace{-7.5mm} \textbf{Chapters}}
-\addtocontents{toc}{\hfill \textbf{Page} \par}
+\addtocontents{toc}{\hspace{-7.5mm} \textbf{Capitulos}}
+\addtocontents{toc}{\hfill \textbf{Pagina} \par}
 \addtocontents{toc}{\vspace{-2mm} \hspace{-7.5mm} \hrule \par}
 
 \onecolumn
@@ -114,31 +114,565 @@
 \HRule{0.5pt} %Controla los márgenes horizontales visibles (líneas) y el grosor de la línea (...pt).
 
 \begin{abstract}
-
+En este trabajo se presenta una simulación del péndulo doble utilizando el algoritmo de Runge-Kutta para resolver las ecuaciones de movimiento del sistema. Se analizan diferentes aspectos del comportamiento del péndulo doble, como la evolución de los ángulos frente al tiempo, la representación del espacio fasorial, las secciones de Poincaré, el diagrama de bifurcación y el diagrama de Lyapunov. Los resultados obtenidos muestran claramente el comportamiento caótico del sistema, especialmente a energías más altas, donde pequeñas diferencias en las condiciones iniciales pueden llevar a resultados muy diferentes a largo plazo.
 \end{abstract}
 
 \section{Introducción}
 
+Un péndulo doble es un sistema dinámico que consiste en dos masas conectadas por varillas rígidas, donde una masa cuelga de la otra. Este sistema exhibe un comportamiento caótico, lo que significa que pequeñas diferencias en las condiciones iniciales pueden llevar a resultados muy diferentes a largo plazo. Para simular el movimiento del péndulo doble, se utilizan las ecuaciones de movimiento derivadas de las ecuaciones de Euler-Lagrange y se resuelven numéricamente utilizando el algoritmo de Runge-Kutta.
+
+En la siguiente figura se muestra una representación gráfica del péndulo doble, donde se pueden observar las dos masas y las varillas que las conectan:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.3\linewidth]{Image/Misc/Pendulo.png}}
+    \caption{Representación gráfica del péndulo doble. Imagen obtenida de \cite{PenduloDoble}.}
+    \label{fig:pendulo_doble}
+\end{figure}
+
+
+
+
 
 \section{Metodología}
 
+En este apartado se describirá el proceso de derivación de las ecuaciones de movimiento para el péndulo doble, así como la implementación del método de Runge-Kutta para resolver estas ecuaciones numéricamente.
+
+Para ello, definimos las coordenadas generalizadas del sistema, que son los ángulos $\theta_1$ y $\theta_2$ que forman las varillas con la vertical. Si denotamos las masas como $m_1$ y $m_2$, las longitudes de las varillas como $l_1$ y $l_2$, y la aceleración debida a la gravedad como $g$, las ecuaciones de movimiento para el péndulo doble se pueden escribir como:
+
+
+\begin{align}
+        T = \frac{1}{2} (m_1+m_2) l_1^2 \dot{\theta}_1^2 + \frac{1}{2} m_2  l_2^2 \dot{\theta}_2^2 + m_2l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+         V = -(m_1+m_2) g l_1 \cos(\theta_1) - m_2 g l_2 \cos(\theta_2) \\
+        \mathcal{L} = T - V 
+\end{align}
+
+
+
+
+Aplicando las ecuaciones de Euler-Lagrange:
+
+\begin{equation}
+\dfrac{d}{dt} \left( \dfrac{\partial \mathcal{L}}{\partial \dot{\theta}_i} \right) - \dfrac{\partial \mathcal{L}}{\partial \theta_i} = 0
+\end{equation} \footnote{La explicación de las ecuaciones se expone en el apéndice.}
+
+Si aplicamos las ecuaciones de Euler-Lagrange a las coordenadas generalizadas $\theta_1$ y $\theta_2$, obtenemos unas expresiones en las que se relacionan las aceleraciones angulares $\ddot{\theta}_1$ y $\ddot{\theta}_2$ con las posiciones angulares $\theta_1$ y $\theta_2$, así como con sus velocidades angulares $\dot{\theta}_1$ y $\dot{\theta}_2$. Estas ecuaciones son no lineales y acopladas. 
+
+El problema con el que nos encontramos es que para aplicar el método de Runge-Kutta necesitamos transformar las ecuaciones de segundo orden en un sistema de ecuaciones de primer orden\footnote{El porqué de transformarlas se explica en el apéndice.}.
+
+Para lograr esto, definimos nuevas variables para representar las velocidades angulares:
+
+\begin{align}
+\omega_1 = \dot{\theta}_1 \\
+\omega_2 = \dot{\theta}_2
+\end{align}
+
+ 
+Con estas nuevas variables, podemos reescribir las ecuaciones de movimiento como un sistema de cuatro ecuaciones de primer orden:
+
+\begin{align}
+\dot{\theta}_1 = \omega_1 \\
+\dot{\theta}_2 = \omega_2 \\
+\dot{\omega}_1 = f_1(\theta_1, \theta_2, \omega_1, \omega_2) \\
+\dot{\omega}_2 = f_2(\theta_1, \theta_2, \omega_1, \omega_2)
+\end{align}
+
+Donde $f_1$ y $f_2$ son funciones que dependen de las posiciones y velocidades angulares, así como de los parámetros del sistema (masas, longitudes, gravedad).
+
+
+La forma de las funciones $f_1$ y $f_2$ es la siguiente:
+\begin{align}
+f_1(\theta_1, \theta_2, \omega_1, \omega_2) = \dfrac{m_2 l_1 \omega_1^2 \sin(2(\theta_1 - \theta_2)) + 2 m_2 l_2 \omega_2^2 \sin(\theta_1-\theta_2) + 2\,g m_2\cos(\theta_2)\sin(\theta_1-\theta_2) + 2gm_1\sin(\theta_1)}{-2\, l_1 (m_1 + m_2\sin^2(\theta_1 - \theta_2))} \\[6pt]
+f_2(\theta_1, \theta_2, \omega_1, \omega_2) = \dfrac{m_2 l_2 \omega_2^2 \sin(2(\theta_1 - \theta_2)) +2(m_1 + m_2)l_1 \omega_1 ^2\sin(\theta_1 - \theta_2) +2g(m_1 + m_2)\cos(\theta_1)\sin(\theta_1 - \theta_2)}{2\ l_2 (m_1 + m_2\sin^2(\theta_1 - \theta_2))}
+\end{align}
+
+
+Una vez que tenemos el sistema de ecuaciones de primer orden, podemos aplicar el método de Runge-Kutta para resolverlo numéricamente. El método de Runge-Kutta es un método iterativo que nos permite aproximar la solución de un sistema de ecuaciones diferenciales ordinarias. Para ello, necesitamos definir un paso de tiempo $h$ y un número de iteraciones $N$, y luego aplicar el algoritmo de Runge-Kutta para actualizar las variables $\theta_1$, $\theta_2$, $\omega_1$ y $\omega_2$ en cada iteración.
+
+
+Para mantener la coherencia de las medidas, tomaremos los siguientes valores para los parámetros del sistema:
+\begin{itemize}
+\item $m_1 = 3$ kg
+\item $m_2 = 1$ kg
+\item $l_1 = 2$ m
+\item $l_2 = 1$ m
+\item $g = 1$ m/s²
+\end{itemize}
+
+Con esto podemos fijar las condiciones iniciales para la simulación. Por ejemplo, podríamos elegir fijar los valores de $\theta_1$ o $\theta_2$ y alguna de sus velocidades angulares $\omega_1$ o $\omega_2$, pero, si observamos la forma que tienen las ecuaciones de movimiento, podemos ver que el sistema no tiene una dependencia explícita con el tiempo, lo que significa que el sistema es conservativo y $T + V = \text{constante} = E$, siendo $E$ la energía total del sistema. Con esta ecuación de ligadura podemos fijar tres de las cuatro condiciones iniciales y la cuarta se fijará automáticamente a través de la ecuación de ligadura. 
+
+Para las primeras tareas de la simulación, fijaremos $\theta_2$, $\omega_1$ y $\omega_2$ y calcularemos $\theta_1$ a través de la energía total del sistema. Para las siguientes tareas, fijaremos $\theta_1$, $\theta_2$ y $\omega_2$ y calcularemos $\omega_1$ a través de la energía total del sistema.
+
+
+
+\subsection{Implementación Computacional}
+
+Para implementar la simulación del péndulo doble seguimos los siguientes pasos:
+
+\begin{itemize}
+\item Derivamos las ecuaciones de movimiento utilizando las ecuaciones de Euler-Lagrange.
+\item Transformamos las ecuaciones de segundo orden en un sistema de ecuaciones de primer orden.
+\item Escogemos las condiciones iniciales y los parámetros del sistema.
+\item Implementamos el método de Runge-Kutta de cuarto orden para resolver el sistema de ecuaciones de primer orden.
+\item Ejecutamos la simulación y analizamos los resultados obtenidos.
+\end{itemize}
+
+El método de Runge-Kutta de cuarto orden es un método iterativo que puede describirse mediante el siguiente algoritmo:
+    
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{Aproximación de la solución del sistema de ecuaciones diferenciales ordinarias.}
+\KwData{Sistema de ecuaciones de primer orden, condiciones iniciales, paso de tiempo.}
+\For{n = 0 to N-1}{
+    $k_1 = f(t_n, y_n)$\;
+    $k_2^n = f(t_n + \frac{h}{2}, y_n + \frac{h}{2} k_1^n)$\;
+    $k_3^n = f(t_n + \frac{h}{2}, y_n + \frac{h}{2} k_2^n)$\;
+    $k_4^n = f(t_n + h, y_n + h k_3^n)$\;
+    $y_{n+1} = y_n + \frac{h}{6} (k_1^n + 2k_2^n + 2k_3^n + k_4^n)$\;
+    $t_{n+1} = t_n + h$\;
+}
+\caption{Algoritmo de Runge-Kutta de cuarto orden.}
+\end{algorithm}
+
+En nuestro programa de Fortran, implementamos este algoritmo mediante un bucle que itera sobre el número de pasos de tiempo y una subrutina que calcula las funciones para obtener los valores de $k_1$, $k_2$, $k_3$ y $k_4$ en cada iteración. Se adjunta una imagen de la subrutina a continuación:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Image/Code/Subrutina.png}}
+    \caption{Subrutina que calcula las funciones para el método de Runge-Kutta.}
+    \label{fig:subrutina}
+\end{figure}
+
+
+Los valores de los parámetros para llevar a cabo la simulación computacional son los siguientes:
+
+\begin{itemize}
+\item Paso de tiempo $h = 0.001$ s
+\item Número de iteraciones variable.\footnote{Debido al gran número de operaciones a realizar se varió el número de iteraciones para obtener los resultados deseados sin sacrificar una gran cantidad de tiempo.}
+\item  Energías totales del sistema: $E_1 = -9.0$, $E_2 = -7.0$, $E_3 = 7.0$ y $E_4 = 9.0$.
+\end{itemize}
+Cuando tratemos con las energías, realizaremos una ligera modificación en estos valores, sumándole o restándolo $0.01$, para poder observar el comportamiento del sistema con condiciones iniciales muy cercanas entre sí, lo que nos permitirá observar claramente el comportamiento caótico del sistema.
+
+    
 \section{Resultados}
+Para analizar el comportamiento del péndulo doble, realizamos varias simulaciones con diferentes condiciones iniciales y parámetros del sistema. Para ello realizamos cinco tareas distintas, cada una enfocada en un aspecto particular del comportamiento del sistema dinámico. 
+
+Debido a la gran cantidad de resultados obtenidos, se han seleccionado algunos de los más representativos para cada tarea, con el fin de ilustrar claramente los diferentes comportamientos del sistema, aunque todos los resultados obtenidos se pueden encontrar en el repositorio de GitHub asociado a este proyecto\footnote{\url{https://github.com/WetZap/Propuestos_Computacional/tree/main/Opcional_RungeKutta}}.
+
+\subsection{Tarea 1: Comportamiento de los ángulos frente al tiempo.}
+En esta tarea, analizamos cómo evolucionan los ángulos $\theta_1$ y $\theta_2$ a lo largo del tiempo para diferentes condiciones iniciales. Observamos que, dependiendo de las condiciones iniciales, el sistema puede exhibir un comportamiento periódico o caótico. 
+
+Lo que haremos será representar gráficamente los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para diferentes condiciones iniciales, pero en un mismo valor de energía. Esto nos permitirá observar cómo pequeñas diferencias en las condiciones iniciales pueden llevar a resultados muy diferentes a largo plazo, esto se visualiza claramente en las gráficas con las energías $E_3$ y $E_4$. 
+
+A continuación se muestran las gráficas obtenidas para la primera energía $E_1$ con las siguientes condiciones iniciales:
+\begin{itemize}
+\item $\theta_2 = 0.0 + i\ 0.001$ rad con $i = 1,...,10$
+\item $\omega_1 = 0.01$ rad/s
+\item $\omega_2 = 0$ rad/s
+\end{itemize}
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea1/simulacion_Temporal_Global.png_1.png}}
+    \caption{Evolución de los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para la energía $E_1$, con un tiempo de simulación de 100 segundos.}
+    \label{fig:Tarea1_E1}
+\end{figure}
+
+Como se puede observar en la figura \ref{fig:Tarea1_E1}, los ángulos $\theta_1$ y $\theta_2$ parecen mantener un comportamiento periódico a lo largo del tiempo, además las trayectorias para distintas condiciones iniciales parecen ser similares no alejándose mucho entre ellas. Esto se debe a que la energía del sistema es relativamente baja, lo que limita el rango de movimiento de las masas y hace que el sistema se comporte de manera más predecible.
+
+Aunque digamos que el sistema se comporta de manera periódica, si nos fijamos en la gráfica con más detalle, podemos observar que las trayectorias para distintas condiciones iniciales no son exactamente iguales, esto se muestra en la siguiente gráfica, que es un zoom de la gráfica anterior:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea1/simulacion_Temporal.png}}
+    \caption{Zoom de la evolución de los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para la energía $E_1$, con un tiempo de simulación de 10 segundos.}
+    \label{fig:Tarea1_E1_zoom}
+\end{figure}
+
+
+A continuación se muestran las gráficas obtenidas para la tercera energía $E_3$ con las siguientes condiciones iniciales:
+
+\begin{itemize}
+\item $\theta_2 = 0.0 + i\ 0.001$ rad con $i = 1,...,10$
+\item $\omega_1 = 0.01$ rad/s
+\item $\omega_2 = 0$ rad/s
+\end{itemize}
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea3/simulacion_Temporal_Global.png_1.png}}
+    \caption{Evolución de los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para la energía $E_3$, con un tiempo de simulación de 100 segundos.}
+    \label{fig:Tarea3_E3}
+\end{figure}
+Simplemente con la imagen se puede observar que el sistema exhibe un comportamiento caótico, ya que las trayectorias para distintas condiciones iniciales se alejan rápidamente entre ellas a medida que avanza el tiempo. El origen del caos no es el mayor rango de movimiento en sí, sino la pérdida de los toros invariantes (escenario KAM) al aumentar la energía, que produce sensibilidad exponencial a las condiciones iniciales. Para poder observar con más detalle el comportamiento caótico del sistema, a continuación se muestra un zoom de la gráfica anterior, para ello hemos escogido un intervalo de tiempo de 20 segundos, para poder observar con más detalle el comportamiento del sistema:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea3/simulacion_Temporal_Global.png_3.png}}
+    \caption{Zoom de la evolución de los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para la energía $E_3$, con un tiempo de simulación de 20 segundos.}
+    \label{fig:Tarea3_E3_zoom}
+\end{figure}
+
+En esta gráfica se puede observar claramente el comportamiento caótico del sistema, ya que las trayectorias para distintas condiciones iniciales se alejan rápidamente entre ellas a medida que avanza el tiempo. El sistema exhibe comportamiento caótico.
+
+\subsection{Tarea 2: Representación del espacio fasorial.}
+En esta tarea, analizamos el comportamiento del sistema en el espacio fasorial, que es un espacio de cuatro dimensiones formado por las variables $\theta_1$, $\theta_2$, $\omega_1$ y $\omega_2$. Para visualizar este espacio, podemos representar las proyecciones de las trayectorias en diferentes planos, como por ejemplo el plano $(\theta_1, \omega_1)$ o el plano $(\theta_2, \omega_2)$.
+
+A continuación veremos el espacio fasorial para la energía $E_1$ y para la energía $E_3$, para ello representaremos las proyecciones de las trayectorias en el plano $(\theta_1, \omega_1)$:
+
+Para la energía $E_1$:
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea1/Fase_1/simulacion_Theta_1_9.png}}
+    \caption{Proyección de las trayectorias en el plano $(\theta_1, \omega_1)$ para la energía $E_1$.}
+    \label{fig:Tarea2_E1}
+\end{figure}
+
+Para la energía $E_3$:
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea3/Fase_1/simulacion_Theta_1_9.png}}
+    \caption{Proyección de las trayectorias en el plano $(\theta_1, \omega_1)$ para la energía $E_3$.}
+    \label{fig:Tarea2_E3}
+\end{figure} 
+Como se observa en la figura \ref{fig:Tarea2_E1}, para la energía $E_1$ las trayectorias en el espacio fasorial parecen ser cerradas y regulares, lo que indica un comportamiento periódico del sistema, mientras que en la figura \ref{fig:Tarea2_E3}, para la energía $E_3$ las trayectorias en el espacio fasorial parecen ser abiertas y caóticas, lo que indica un comportamiento caótico del sistema. Con estas gráficas podemos observar claramente la diferencia entre el comportamiento periódico y el comportamiento caótico del sistema, dependiendo de la energía del sistema y de las condiciones iniciales.
+
+
+Para obtener una mejor visualización del espacio fasorial, también podemos representar las proyecciones de las trayectorias en el plano $(\theta_2, \omega_2)$ para la energía $E_1$ y para la energía $E_3$:
+Para la energía $E_1$:
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea1/Fase_2/simulacion_Theta_2_9.png}}
+    \caption{Proyección de las trayectorias en el plano $(\theta_2, \omega_2)$ para la energía $E_1$.}
+    \label{fig:Tarea2_E1_2}
+\end{figure}
+
+Para la energía $E_3$:
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea3/Fase_2/simulacion_Theta_2_9.png}}
+    \caption{Proyección de las trayectorias en el plano $(\theta_2, \omega_2)$ para la energía $E_3$.}
+    \label{fig:Tarea2_E3_2}
+\end{figure}
+
+Al igual que para la proyección en el plano $(\theta_1, \omega_1)$, para la energía $E_1$ las trayectorias en el plano $(\theta_2, \omega_2)$ parecen ser cerradas y regulares, mientras que para la energía $E_3$ las trayectorias en el plano $(\theta_2, \omega_2)$ parecen ser abiertas y caóticas.
+
+\subsection{Tarea 3: Secciones de Poincaré.}
+
+En esta tarea, analizamos el comportamiento del sistema utilizando secciones de Poincaré, que son cortes transversales al espacio fasorial que nos permiten visualizar la dinámica del sistema de una manera más clara. Para ello, podemos elegir una sección de Poincaré con $\theta_2$ y $\omega_2$ como condiciones iniciales y representaremos cuando el sistema tenga $\theta_1 = 0$ y $\omega_1 \text{mayor que} 0$, es decir, cuando el sistema cruza el plano definido por $\theta_1 = 0$ con una velocidad angular positiva.
+
+A continuación se muestran las secciones de Poincaré para la energía $E_1$:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea1/simulacion_Poincare.png}}
+    \caption{Sección de Poincaré para la energía $E_1$.}
+    \label{fig:Tarea3_E1}
+\end{figure}
+
+
+Como se observa en la figura \ref{fig:Tarea3_E1}, para la energía $E_1$ las secciones de Poincaré se pueden describir como curvas cerradas anidadas, cada una correspondiente a una trayectoria diferente en el espacio fasorial. 
+
+Si continuamos con la energía $E_2$, obtenemos la siguiente sección de Poincaré:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea2/simulacion_Poincare.png}}
+    \caption{Sección de Poincaré para la energía $E_2$.}
+    \label{fig:Tarea3_E2}
+\end{figure}
+
+En la figura \ref{fig:Tarea3_E2}, para la energía $E_2$ las secciones de Poincaré comienzan a mostrar una estructura más compleja, con algunas curvas cerradas anidadas y otras curvas que parecen ser caóticas, lo que indica un comportamiento mixto del sistema, con regiones de comportamiento periódico y regiones de comportamiento caótico.
+
+
+Continuando con la energía $E_3$, obtenemos la siguiente sección de Poincaré:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Tarea3/simulacion_Poincare.png}}
+    \caption{Sección de Poincaré para la energía $E_3$.}
+    \label{fig:Tarea3_E3}
+\end{figure}
+
+En la figura \ref{fig:Tarea3_E3}, para la energía $E_3$ las secciones de Poincaré muestran una estructura caótica, con curvas que parecen ser abiertas y sin una forma clara, lo que indica un comportamiento caótico del sistema. Sin embargo, también se pueden observar líneas, dejando un espacio caótico entre ellas, lo que indica la presencia de regiones de comportamiento periódico dentro del comportamiento caótico general del sistema. Esto se debe a que el sistema es conservativo y, por lo tanto, puede exhibir una mezcla de comportamientos periódicos y caóticos dependiendo de las condiciones iniciales y de la energía del sistema.
+
+
+Tras comparar las tres secciones de Poincaré para las energías $E_1$, $E_2$ y $E_3$, podemos observar claramente la transición del comportamiento periódico al comportamiento caótico a medida que aumenta la energía del sistema. Para la energía $E_1$, el sistema exhibe un comportamiento principalmente periódico, con curvas cerradas anidadas en la sección de Poincaré. Para la energía $E_2$, el sistema muestra un comportamiento mixto, con regiones de comportamiento periódico y regiones de comportamiento caótico. Finalmente, para la energía $E_3$, el sistema exhibe un comportamiento principalmente caótico, con curvas abiertas y sin una forma clara en la sección de Poincaré. Estas observaciones nos permiten comprender mejor cómo la energía del sistema influye en su dinámica y cómo pequeñas diferencias en las condiciones iniciales pueden llevar a resultados muy diferentes a largo plazo.
+
+\subsection{Tarea 4: Diagrama de bifurcación y ventanas en el caos.}
+En esta tarea, analizamos el comportamiento del sistema utilizando diagramas de bifurcación, que nos permiten visualizar cómo cambia la dinámica del sistema a medida que variamos un parámetro, como por ejemplo la energía del sistema. Para ello, podemos representar las secciones de Poincaré para diferentes valores de energía y observar cómo cambian las estructuras en la sección de Poincaré a medida que aumenta la energía.
+
+Para realizar la tarea representaremos las secciones de Poincaré para varios rangos de energía comprendidos entre $E_1 = -9$ y $E = 25$, construyendo un diagrama de bifurcación independiente en cada rango, manteniendo las mismas condiciones iniciales para cada energía, es decir, fijando $\theta_2 = 0.0$, $\theta_1 = 0.0$ y $\omega_2 = 0.0$ y calculando $\omega_1$ a través de la energía total del sistema. 
+
+En la siguiente figura se muestra el diagrama de bifurcación obtenido para el rango de energías $E_1$ a $-4$:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Poincare/simulacion_Poincare_2_1.png}}
+    \caption{Diagrama de bifurcación para el rango de energías $E_1$ a $-4$.}
+    \label{fig:Tarea4_Bifurcacion}
+\end{figure}
 
 
 
+
+A continuación se muestra el diagrama de bifurcación obtenido para el rango de energías $E_1$ a $0$ y un zoom a una región comprendida entre $-8.5$ y $-7.5$:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Poincare/simulacion_Poincare_2_4.png}}
+    \caption{Diagrama de bifurcación para el rango de energías $E_1$ a $0$.}
+    \label{fig:Tarea4_Bifurcacion2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Poincare/simulacion_Poincare_2_2.png}}
+    \caption{Diagrama de bifurcación para el rango de energías $-8.71$ a $-8.64$.}
+    \label{fig:Tarea4_Bifurcacion2}
+\end{figure}
+
+
+Para el valor de energía nula observamos el siguiente diagrama de bifurcación:
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Poincare/simulacion_Poincare_2_6.png}}
+    \caption{Diagrama de bifurcación para el rango de energías $0$ a $0.05$.}
+    \label{fig:Tarea4_Bifurcacion3}
+\end{figure}
+Donde se puede observar que el sistema muestra un comportamiento totalmente caótico. Ahora mostramos el diagrama de bifurcación obtenido para el rango de energías $18$ a $25$, en el se puede observar una ventana regular:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Poincare/simulacion_Poincare_2_5.png}}
+    \caption{Diagrama de bifurcación para el rango de energías $18$ a $25$.}
+    \label{fig:Tarea4_Bifurcacion3}
+\end{figure}
+
+
+Como se observa en los diagramas de bifurcación, a medida que aumenta la energía del sistema, las estructuras en la sección de Poincaré cambian de manera significativa. Para energías bajas, el sistema exhibe un comportamiento no caótico, sin embargo, se pueden observar regiones de comportamiento caótico. A medida que aumenta la energía, el sistema muestra un comportamiento caótico que se ve interrumpido por ventanas de regiones regulares.
+
+Estas ventanas de regiones regulares se pueden observar claramente en el diagrama de bifurcación para el rango de energías $18$ a $25$, donde se pueden ver regiones de comportamiento caótico interrumpidas por ventanas de comportamiento periódico. Estas ventanas de comportamiento periódico indican la presencia de órbitas estables dentro del comportamiento caótico general del sistema, lo que es una característica común en sistemas dinámicos caóticos. 
+
+También se pueden observar que a energía nula el sistema muestra un comportamiento totalmente caótico, observándose únicamente puntos sin ningún orden. El sistema exhibe comportamiento caótico.
+
+Por lo tanto, a través de los diagramas de bifurcación, podemos observar claramente cómo la dinámica del sistema cambia a medida que varía la energía, mostrando como el caos se apodera del sistema a una energía cercana a $E = -4$, esto se observa en la figura \ref{fig:Tarea4_Bifurcacion}.
+
+\subsection{Tarea 5: Diagrama de Lyapunov.}
+
+En esta tarea, analizamos el comportamiento del sistema utilizando diagramas de Lyapunov, que nos permiten visualizar la sensibilidad del sistema a las condiciones iniciales. Para ello, podemos calcular el exponente de Lyapunov para diferentes valores de energía y representar cómo varía el exponente de Lyapunov a medida que aumenta la energía del sistema.
+
+El exponente de Lyapunov se calcula utilizando la siguiente fórmula:
+\begin{equation}
+\lambda = \frac{1}{t\ N}\sum_{i=0}^{N}  \ln \frac{d_{i}(t)}{d_{i}(0)}
+\end{equation}
+
+
+
+Donde $d_{i}(t)$ es la distancia entre dos trayectorias en el espacio fasorial en el tiempo $t$, y $d_{i}(0)$ es la distancia inicial entre las dos trayectorias. Un exponente de Lyapunov positivo indica un comportamiento caótico, mientras que un exponente de Lyapunov negativo o cero indica un comportamiento no caótico.
+
+El valor de $d_{i}(t)$ se calcula utilizando la siguiente fórmula:
+\begin{equation}
+d_{i}(t) = \sqrt{(\theta_1(t) - \theta_1'(t))^2 + (\theta_2(t) - \theta_2'(t))^2 + (\omega_1(t) - \omega_1'(t))^2 + (\omega_2(t) - \omega_2'(t))^2}
+\end{equation}
+
+% VERIFICAR: confirmar si se implementó renormalización periódica en el código; si no, eliminar la frase siguiente y sustituirla por una nota honesta indicándolo.
+La separación inicial entre trayectorias se fijó en $d_0 = 10^{-8}$ (ajustar al valor real usado), y tras cada intervalo de integración las trayectorias se reescalan a esa separación inicial conservando su dirección, para evitar la saturación debida al carácter acotado del espacio de fases.
+
+Y el valor de $d_{i}(0)$ se calcula al inicio de la simulación, utilizando las condiciones iniciales de las dos trayectorias que estamos comparando, posteriormente, a medida que avanza la simulación, calculamos $d_{i}(t)$ en cada paso de tiempo y utilizamos estos valores para calcular el exponente de Lyapunov. 
+
+
+A continuación se muestra el diagrama de Lyapunov obtenido para las cuatro energías $E_1$, $E_2$, $E_3$ y $E_4$:
+
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Lyapunov/Lyapunov.png}}
+    \caption{Diagrama de Lyapunov para las energías $E_1$, $E_2$, $E_3$ y $E_4$.}
+    \label{fig:Tarea5_Lyapunov}
+\end{figure}
+
+En la figura \ref{fig:Tarea5_Lyapunov}, se puede observar que para la energía $E_1$ y $E_2$, el exponente de Lyapunov es prácticamente cero, lo que indica un comportamiento no caótico del sistema. Sin embargo, para la energía $E_3$ y $E_4$, el exponente de Lyapunov es positivo, lo que indica un comportamiento caótico del sistema. Esto confirma las observaciones realizadas en las tareas anteriores, donde se observó una transición del comportamiento periódico al comportamiento caótico a medida que aumentaba la energía del sistema.
+
+\subsection{Conservación de la Energía.}
+
+Por último, queríamos añadir esta sección para mostrar como la energía del sistema se conserva, para ello exponemos la siguiente gráfica, que muestra la energía inicial del sistema dividida por la energía calculada en cada paso de tiempo:
+
+% TODO: si se dispone de los datos de |E(t)-E0|, sustituir esta figura por la desviación absoluta; ilustra mejor el rigor de la conservación numérica que el cociente E_0/E(t).
+\begin{figure}[H]
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Lyapunov/Lyapunov_Energia.png}}
+    \caption{Gráfica de la energía inicial del sistema dividida por la energía calculada en cada paso de tiempo.}
+    \label{fig:Energy}
+\end{figure}
+
+Como se observa en la figura \ref{fig:Energy}, la energía del sistema se conserva a lo largo del tiempo. Para cuantificar la conservación de forma más precisa, conviene fijarse en la desviación absoluta $|E(t)-E_0|$, que se mantiene en todo momento muy por debajo del valor $0.01$ empleado para separar las energías de trabajo de los puntos críticos; esto garantiza que las simulaciones a $E_i \pm 0.01$ son fiables y que la deriva numérica de RK4 (método no simpléctico) no contamina los resultados. La gráfica muestra una línea horizontal en el valor de $1$, lo que indica que la energía calculada en cada paso de tiempo es igual a la energía inicial del sistema. Esto confirma que el sistema es conservativo y que el método de Runge-Kutta utilizado para resolver las ecuaciones de movimiento ha sido implementado correctamente, ya que ha permitido conservar la energía del sistema a lo largo de la simulación.
+
+En la gráfica se encuentran los valores de energía para las energías $E_1$, $E_2$, $E_3$ y $E_4$, y se puede observar que para todas las energías, la energía del sistema se conserva a lo largo del tiempo, lo que confirma la validez de nuestras simulaciones y el correcto funcionamiento del método de Runge-Kutta implementado.
 
 \section{Conclusiones}
+
+En este proyecto, hemos simulado el comportamiento de un péndulo doble utilizando el algoritmo de Runge-Kutta para resolver las ecuaciones de movimiento del sistema. A través de diferentes tareas, hemos analizado el comportamiento del sistema en función de la energía y las condiciones iniciales, observando una transición del comportamiento periódico al comportamiento caótico a medida que aumentaba la energía del sistema. Hemos utilizado diferentes herramientas de análisis, como el espacio fasorial, las secciones de Poincaré, los diagramas de bifurcación y el exponente de Lyapunov, para comprender mejor la dinámica del sistema y la sensibilidad a las condiciones iniciales. Este estudio nos ha permitido apreciar la complejidad y riqueza del comportamiento de sistemas dinámicos no lineales como el péndulo doble, y cómo pequeñas diferencias en las condiciones iniciales pueden llevar a resultados muy diferentes a largo plazo, lo que es una característica fundamental de los sistemas caóticos.
+
+Sin embargo, por falta de tiempo, no hemos podido analizar en profundidad el comportamiento del sistema para energías más altas, lo que podría ser un tema interesante. Además, podríamos explorar otras herramientas de análisis, como la entropía de Kolmogorov-Sinai o la dimensión de fractal, para obtener una comprensión aún más profunda del comportamiento caótico del sistema. En general, este proyecto ha sido una experiencia enriquecedora que nos ha permitido aplicar técnicas de simulación numérica y análisis de sistemas dinámicos para estudiar un sistema como el péndulo doble.
+
+Además, el código de Fortran utilizado para la simulación ha tenido que ser optimizado para poder realizar las simulaciones en tiempos razonables, lo que ha constituido una parte relevante del proceso de desarrollo.
 
 
 \section{Apéndice}
 
+\subsection{Ecuaciones Euler-Lagrange}
+
+Las ecuaciones de Euler-Lagrange son un conjunto de ecuaciones diferenciales que describen el movimiento de un sistema dinámico a partir de su función Lagrangiana, que es la diferencia entre la energía cinética y la energía potencial del sistema. Para un sistema con coordenadas generalizadas $q_i$ y velocidades generalizadas $\dot{q}_i$, las ecuaciones de Euler-Lagrange se pueden escribir como:
+\begin{equation}
+\dfrac{d}{dt} \left( \dfrac{\partial \mathcal{L}}{\partial \dot{q}_i} \right) - \dfrac{\partial \mathcal{L}}{\partial q_i} = 0
+\end{equation}
+
+Donde $\mathcal{L}$ es la función Lagrangiana del sistema, que se define como $\mathcal{L} = T - V$, siendo $T$ la energía cinética y $V$ la energía potencial del sistema. Estas ecuaciones nos permiten derivar las ecuaciones de movimiento para el sistema dinámico a partir de su función Lagrangiana. Estas ecuaciones son fundamentales para el análisis de sistemas dinámicos y se utilizan ampliamente en la física teórica y la mecánica clásica.
+
+Fueron obtenidas por el matemático suizo Leonhard Euler y el matemático francés Joseph-Louis Lagrange en el siglo XVIII, y han sido una herramienta fundamental para el estudio de la mecánica clásica y la física teórica desde entonces, permitiendo describir el movimiento de sistemas dinámicos de manera más general y elegante que las leyes de Newton.
 
 
 
-\bibliographystyle{apsrev}
+\subsection{Condiciones necesarias para aplicar el método de Runge-Kutta}
+
+El método de Runge-Kutta, en su formulación estándar, está diseñado para resolver ecuaciones diferenciales ordinarias de \textbf{primer orden} de la forma:
+\begin{equation}
+    \frac{dy}{dt} = f(t, y), \quad y(t_0) = y_0.
+\end{equation}
+Las ecuaciones de movimiento del péndulo doble, obtenidas a través del formalismo de Euler-Lagrange, son ecuaciones de \textbf{segundo orden} en $\theta_1$ y $\theta_2$. Para poder aplicar el método de Runge-Kutta, es necesario transformar dichas ecuaciones en un sistema equivalente de ecuaciones de primer orden.
+
+Dada una ecuación diferencial de segundo orden general:
+\begin{equation}
+    \ddot{y} = f(t, y, \dot{y}),
+\end{equation}
+se introduce la variable auxiliar $\omega = \dot{y}$, lo que permite reescribir la ecuación original como el sistema de primer orden:
+\begin{align}
+    \dot{y} &= \omega, \\
+    \dot{\omega} &= f(t, y, \omega).
+\end{align}
+Este procedimiento se generaliza a cualquier orden: una ecuación diferencial de orden $n$ se transforma en un sistema de $n$ ecuaciones de primer orden. Aplicado al péndulo doble, con dos ecuaciones de segundo orden en $\theta_1$ y $\theta_2$, se obtiene el sistema de cuatro ecuaciones de primer orden presentado en la sección de Metodología.
+
+\subsection{Desarrollo matemático del método de Runge-Kutta de cuarto orden}
+
+\subsubsection*{Método de Euler y su limitación}
+
+El método numérico más sencillo para resolver $\dot{y} = f(t,y)$ es el \textbf{método de Euler}, que se obtiene truncando el desarrollo en serie de Taylor de $y(t+h)$ al primer orden:
+\begin{equation}
+    y(t+h) = y(t) + h\,y'(t) + \frac{h^2}{2}\,y''(t) + \cdots \approx y(t) + h\,f(t,y(t)).
+\end{equation}
+El error local de truncación es $\mathcal{O}(h^2)$, y el error global acumulado es $\mathcal{O}(h)$: el método de Euler es de \textbf{primer orden}. Para problemas físicos que requieren una integración precisa a lo largo de tiempos prolongados, este orden de precisión resulta insuficiente.
+
+\subsubsection*{Idea general de los métodos de Runge-Kutta}
+
+La serie de Taylor completa es:
+\begin{equation}
+    y(t_n+h) = y_n + h\,y'_n + \frac{h^2}{2!}\,y''_n + \frac{h^3}{3!}\,y'''_n + \frac{h^4}{4!}\,y^{(4)}_n + \mathcal{O}(h^5),
+\end{equation}
+donde las derivadas superiores de $y$ se expresan en términos de derivadas parciales de $f(t,y)$. Denotando $f_t = \partial f/\partial t$ y $f_y = \partial f/\partial y$:
+\begin{align}
+    y' &= f, \label{eq:d1}\\
+    y'' &= f_t + f\,f_y, \label{eq:d2}\\
+    y''' &= f_{tt} + 2f\,f_{ty} + f^2\!f_{yy} + f_y(f_t + f\,f_y). \label{eq:d3}
+\end{align}
+Calcular estas derivadas de orden superior de forma explícita resulta tedioso y costoso computacionalmente. La idea de los métodos de Runge-Kutta es aproximar los términos de la serie de Taylor evaluando $f$ en puntos estratégicos dentro del intervalo $[t_n, t_n+h]$, evitando así el cálculo directo de derivadas superiores.
+
+Un método de Runge-Kutta de $s$ etapas tiene la forma general:
+\begin{equation}
+    y_{n+1} = y_n + h\sum_{i=1}^{s} b_i k_i, \qquad k_i = f\!\left(t_n + c_i h,\; y_n + h\sum_{j=1}^{i-1} a_{ij}\, k_j\right),
+\end{equation}
+donde los coeficientes $b_i$, $c_i$ y $a_{ij}$ se determinan exigiendo que la fórmula reproduzca la mayor cantidad posible de términos de la serie de Taylor.
+
+\subsubsection*{Derivación del método clásico RK4}
+
+Para el método clásico de cuarto orden ($s=4$), las etapas y la fórmula de avance son:
+\begin{align}
+    k_1 &= f(t_n,\; y_n), \label{eq:k1}\\
+    k_2 &= f\!\left(t_n + \tfrac{h}{2},\; y_n + \tfrac{h}{2}\,k_1\right), \label{eq:k2}\\
+    k_3 &= f\!\left(t_n + \tfrac{h}{2},\; y_n + \tfrac{h}{2}\,k_2\right), \label{eq:k3}\\
+    k_4 &= f\!\left(t_n + h,\; y_n + h\,k_3\right), \label{eq:k4}\\[4pt]
+    y_{n+1} &= y_n + \frac{h}{6}\left(k_1 + 2k_2 + 2k_3 + k_4\right). \label{eq:rk4}
+\end{align}
+Los pesos $1/6$, $1/3$, $1/3$, $1/6$ coinciden con los de la regla de cuadratura de Simpson: $k_1$ y $k_4$ son pendientes en los extremos del intervalo, mientras que $k_2$ y $k_3$ son pendientes calculadas en el punto medio con aproximaciones sucesivamente más precisas de $y(t_n+h/2)$. Los coeficientes se resumen en el \textbf{tableau de Butcher}:
+\begin{equation}
+\renewcommand\arraystretch{1.4}
+\begin{array}{c|cccc}
+0   &     &     &     &     \\
+1/2 & 1/2 &     &     &     \\
+1/2 &  0  & 1/2 &     &     \\
+1   &  0  &  0  &  1  &     \\
+\hline
+    & 1/6 & 1/3 & 1/3 & 1/6
+\end{array}
+\end{equation}
+
+\subsubsection*{Verificación del orden de precisión}
+
+Para comprobar que la fórmula (\ref{eq:rk4}) reproduce la serie de Taylor, se expande cada $k_i$ alrededor de $(t_n, y_n)$ usando la fórmula de expansión en dos variables:
+\begin{equation}
+    f(t+\alpha,\, y+\beta) = f + \alpha f_t + \beta f_y + \frac{\alpha^2}{2}f_{tt} + \alpha\beta\, f_{ty} + \frac{\beta^2}{2}f_{yy} + \mathcal{O}(3),
+\end{equation}
+donde todas las derivadas se evalúan en $(t_n, y_n)$.
+
+\medskip\noindent
+\textbf{Etapa $k_1$:}
+\begin{equation}
+    k_1 = f.
+\end{equation}
+
+\noindent
+\textbf{Etapa $k_2$} $\bigl(\alpha = h/2,\;\beta = hf/2\bigr)$:
+\begin{equation}
+    k_2 = f + \frac{h}{2}(f_t + f\,f_y) + \frac{h^2}{8}(f_{tt} + 2f\,f_{ty} + f^2\!f_{yy}) + \mathcal{O}(h^3).
+\end{equation}
+
+\noindent
+\textbf{Etapa $k_3$} $\bigl(\alpha = h/2,\;\beta = hk_2/2\bigr)$. Utilizando $k_2 = f + \mathcal{O}(h)$ en los términos de segundo orden:
+\begin{equation}
+    k_3 = f + \frac{h}{2}(f_t + f\,f_y) + \frac{h^2}{8}(f_{tt} + 2f\,f_{ty} + f^2\!f_{yy}) + \frac{h^2}{4}f_y(f_t + f\,f_y) + \mathcal{O}(h^3).
+\end{equation}
+
+\noindent
+\textbf{Etapa $k_4$} $\bigl(\alpha = h,\;\beta = hk_3\bigr)$. Utilizando $k_3 = f + \mathcal{O}(h)$ en los términos de segundo orden:
+\begin{equation}
+    k_4 = f + h(f_t + f\,f_y) + \frac{h^2}{2}(f_{tt} + 2f\,f_{ty} + f^2\!f_{yy}) + \frac{h^2}{2}f_y(f_t + f\,f_y) + \mathcal{O}(h^3).
+\end{equation}
+
+\medskip
+Calculando la combinación ponderada $k_1 + 2k_2 + 2k_3 + k_4$ (con coeficientes de los términos en $h^0$: $1+2+2+1=6$; en $h^1$: $0+1+1+1=3$; en $h^2$: coeficiente de $(f_{tt}+\ldots)$ es $0+1/4+1/4+1/2=1$; coeficiente de $f_y(f_t+f f_y)$ es $0+0+1/2+1/2=1$):
+\begin{align}
+    k_1 + 2k_2 + 2k_3 + k_4 &= 6f + 3h(f_t + f\,f_y) \notag\\
+    &\quad + h^2\!\Bigl[f_{tt} + 2f\,f_{ty} + f^2\!f_{yy} + f_y(f_t + f\,f_y)\Bigr] + \mathcal{O}(h^3).
+\end{align}
+Multiplicando por $h/6$:
+\begin{equation}
+    y_{n+1} = y_n + hf + \frac{h^2}{2}(f_t + f\,f_y) + \frac{h^3}{6}\bigl[f_{tt} + 2f\,f_{ty} + f^2\!f_{yy} + f_y(f_t + f\,f_y)\bigr] + \mathcal{O}(h^4).
+\end{equation}
+Identificando con las expresiones (\ref{eq:d1})--(\ref{eq:d3}):
+\begin{equation}
+    y_{n+1} = y_n + h\,y'_n + \frac{h^2}{2}\,y''_n + \frac{h^3}{6}\,y'''_n + \mathcal{O}(h^4),
+\end{equation}
+lo que coincide con la serie de Taylor hasta el término de orden $h^3$. Extendiendo las expansiones de $k_i$ hasta orden $h^3$ (lo que requiere derivadas parciales de tercer orden de $f$), se puede mostrar que también se reproduce el término $h^4 y^{(4)}/24$, con lo que el \textbf{error local de truncación es $\mathcal{O}(h^5)$} y el \textbf{error global acumulado es $\mathcal{O}(h^4)$}: el método es de \textbf{cuarto orden de precisión}.\cite{Burden2017RungeKutta} \cite{Gutierrez2024Metodos}
+
+\subsubsection*{Extensión a sistemas vectoriales}
+
+Cuando el estado del sistema viene descrito por un vector $\mathbf{y} = (y_1, y_2, \ldots, y_N)^{\!\top}$ que satisface $\dot{\mathbf{y}} = \mathbf{f}(t, \mathbf{y})$, el método RK4 se aplica de forma idéntica reemplazando escalares por vectores:
+\begin{align}
+    \mathbf{k}_1 &= \mathbf{f}(t_n,\; \mathbf{y}_n), \\
+    \mathbf{k}_2 &= \mathbf{f}\!\left(t_n + \tfrac{h}{2},\; \mathbf{y}_n + \tfrac{h}{2}\,\mathbf{k}_1\right), \\
+    \mathbf{k}_3 &= \mathbf{f}\!\left(t_n + \tfrac{h}{2},\; \mathbf{y}_n + \tfrac{h}{2}\,\mathbf{k}_2\right), \\
+    \mathbf{k}_4 &= \mathbf{f}\!\left(t_n + h,\; \mathbf{y}_n + h\,\mathbf{k}_3\right), \\[4pt]
+    \mathbf{y}_{n+1} &= \mathbf{y}_n + \frac{h}{6}\left(\mathbf{k}_1 + 2\mathbf{k}_2 + 2\mathbf{k}_3 + \mathbf{k}_4\right).
+\end{align}
+En el caso del péndulo doble, $\mathbf{y} = (\theta_1, \theta_2, \omega_1, \omega_2)^{\!\top}$ y $\mathbf{f} = (\omega_1, \omega_2, f_1, f_2)^{\!\top}$, siendo $f_1$ y $f_2$ las funciones definidas en la sección de Metodología. 
+
+
+
+
+
+
+
+
+\bibliographystyle{plain}
 \bibliography{biblio,references}
-
-
-
 
 \end{document}
