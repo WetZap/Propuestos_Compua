@@ -34,6 +34,8 @@ Para consultar instrucciones concretas de uso, compilación o reproducción de r
 
 Entre los contenidos verificados del repositorio se encuentra el subproyecto `Opcional_RungeKutta`, dedicado al estudio numérico de un sistema dinámico mediante métodos de Runge-Kutta y acompañado de documentación propia en su carpeta correspondiente.
 
+A su vez se encuentra documentado `Opcional_Schrodinger`, dedicado al estudio numéricos de una onda en un pozo armónico cuántico.
+
 ## Finalidad del repositorio
 
 Este repositorio tiene como propósito:
