@@ -464,7 +464,7 @@ En esta tarea, analizamos el comportamiento del sistema utilizando diagramas de 
 
 El exponente de Lyapunov se calcula utilizando la siguiente fórmula:
 \begin{equation}
-\lambda = \frac{1}{t\ N}\sum_{i=0}^{N}  \ln \frac{d_{i}(t)}{d_{i}(0)}
+\lambda = \frac{1}{\tau N}\sum_{i=0}^{N}  \ln \frac{d_{i}(t)}{d_{i}(0)}
 \end{equation}
 
 
@@ -477,7 +477,7 @@ d_{i}(t) = \sqrt{(\theta_1(t) - \theta_1'(t))^2 + (\theta_2(t) - \theta_2'(t))^2
 \end{equation}
 
 % VERIFICAR: confirmar si se implementó renormalización periódica en el código; si no, eliminar la frase siguiente y sustituirla por una nota honesta indicándolo.
-La separación inicial entre trayectorias se fijó en $d_0 = 10^{-8}$ (ajustar al valor real usado), y tras cada intervalo de integración las trayectorias se reescalan a esa separación inicial conservando su dirección, para evitar la saturación debida al carácter acotado del espacio de fases.
+La separación inicial entre trayectorias se calculo con los valores iniciales, y tras cada intervalo de integración las trayectorias se reescalan a esa separación inicial conservando su dirección, para evitar la saturación debida al carácter acotado del espacio de fases.
 
 Y el valor de $d_{i}(0)$ se calcula al inicio de la simulación, utilizando las condiciones iniciales de las dos trayectorias que estamos comparando, posteriormente, a medida que avanza la simulación, calculamos $d_{i}(t)$ en cada paso de tiempo y utilizamos estos valores para calcular el exponente de Lyapunov. 
 
@@ -493,6 +493,20 @@ A continuación se muestra el diagrama de Lyapunov obtenido para las cuatro ener
 
 En la figura \ref{fig:Tarea5_Lyapunov}, se puede observar que para la energía $E_1$ y $E_2$, el exponente de Lyapunov es prácticamente cero, lo que indica un comportamiento no caótico del sistema. Sin embargo, para la energía $E_3$ y $E_4$, el exponente de Lyapunov es positivo, lo que indica un comportamiento caótico del sistema. Esto confirma las observaciones realizadas en las tareas anteriores, donde se observó una transición del comportamiento periódico al comportamiento caótico a medida que aumentaba la energía del sistema.
 
+
+Si además queremos observar con más detalle el comportamiento del exponente de Lyapunov para la energía $E_1$ y $E_2$, podemos realizar un zoom de la gráfica anterior, para ello hemos escogido un intervalo del eje y comprendido entre $-0.02$ y $0.02$:
+
+\begin{figure}
+    
+    \centering{
+    \includegraphics[width=0.8\linewidth]{Video/Lyapunov/Lyapunov.png_1.png}}
+    \caption{Zoom del diagrama de Lyapunov para las energías $E_1$ y $E_2$.}
+    \label{fig:Tarea5_Lyapunov_zoom}
+
+\end{figure}
+
+
+
 \subsection{Conservación de la Energía.}
 
 Por último, queríamos añadir esta sección para mostrar como la energía del sistema se conserva, para ello exponemos la siguiente gráfica, que muestra la energía inicial del sistema dividida por la energía calculada en cada paso de tiempo:
@@ -501,7 +515,7 @@ Por último, queríamos añadir esta sección para mostrar como la energía del 
 \begin{figure}[H]
     \centering{
     \includegraphics[width=0.8\linewidth]{Video/Lyapunov/Lyapunov_Energia.png}}
-    \caption{Gráfica de la energía inicial del sistema dividida por la energía calculada en cada paso de tiempo.}
+    \caption{Gráfica que muestra la energía en cada paso de tiempo menos la energía inicial del sistema, para las energías $E_1$, $E_2$, $E_3$ y $E_4$.}
     \label{fig:Energy}
 \end{figure}
 
