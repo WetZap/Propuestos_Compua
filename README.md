@@ -9,7 +9,7 @@ Este repositorio contiene dos proyectos principales:
 
 Antes de ejecutar el código, es necesario leer la guía de ejecución:
 
-- [Guía de ejecución](./GUIA_DOCKER.md)
+- [Guía de ejecución](./GuiaEjecucion.md)
 
 En esa guía se explica la instalación en macOS y Windows, el uso de Docker y la ubicación de los resultados generados.
 
