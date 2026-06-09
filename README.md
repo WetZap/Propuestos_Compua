@@ -5,7 +5,7 @@ Este repositorio contiene dos proyectos principales:
 - `Opcional_RungeKutta`
 - `Opcional_Schrodinger`
 
-## \uf071 Importante nf-fa-warning 
+## Importante
 
 Antes de ejecutar el código, es necesario leer la guía de ejecución:
 
