@@ -368,9 +368,9 @@ Compilacion_INTEL() {
 # Elegimos la compilación según el entorno disponible
 
 
-#Compilacion_gfortran
+Compilacion_gfortran
 
-Compilacion_INTEL
+#Compilacion_INTEL
 
 # Esperamos a que terminen las compilaciones y verificamos si hubo errores
 wait "$pid_c1" || { echo "Error compilando Kutta_1.f90"; exit 1; }
@@ -406,6 +406,7 @@ echo "Ejecutando simulación para el cálculo del exponente de Lyapunov..."
 "$DIR_EJECUTABLE_LYAPUNOV" "$DIR_DATOS_Lyapunov"
 
 fase "Simulaciones de Lyapunov" "$T_SIM"
+
 # Definimos los hilos que usaremos
 export OMP_NUM_THREADS=10
 

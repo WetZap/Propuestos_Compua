@@ -39,7 +39,7 @@ Opcional_RungeKutta/
 | **Gnuplot** | ≥ 5.4 | Renderizado de gráficas |
 | **Bash** | ≥ 4 | Orquestación del pipeline |
 
-> **Nota sobre el compilador:** el script tiene dos funciones de compilación (`Compilacion_gfortran` y `Compilacion_INTEL`). Por defecto se invoca `Compilacion_INTEL`. Para usar `gfortran`, comenta la línea `Compilacion_INTEL` y descomenta `#Compilacion_gfortran`.
+> **Nota sobre el compilador:** el script tiene dos funciones de compilación (`Compilacion_gfortran` y `Compilacion_INTEL`). Por defecto se invoca `Compilacion_gfortran`. Para usar `ifx`, comenta la línea `Compilacion_gfortran` y descomenta `#Compilacion_Intel` aunque en archivos de docker no es posible ejecutar intel.
 
 ---
 
