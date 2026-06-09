@@ -53,8 +53,8 @@ program RungeKuta
 
    un_sexto = 1.d0 / 6.d0
    un_medio = 0.5d0
-   ajuste_fin = 0.00008d0
-   limite_i = 5000
+   ajuste_fin = 0.01d0
+   limite_i = 3500
 
    Vmin = -(m_1 + m_2) * g * l_1 - m_2 * g * l_2
 
