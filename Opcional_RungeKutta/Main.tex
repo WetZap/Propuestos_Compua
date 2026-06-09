@@ -519,9 +519,7 @@ Por último, queríamos añadir esta sección para mostrar como la energía del 
     \label{fig:Energy}
 \end{figure}
 
-Como se observa en la figura \ref{fig:Energy}, la energía del sistema se conserva a lo largo del tiempo. Para cuantificar la conservación de forma más precisa, conviene fijarse en la desviación absoluta $|E(t)-E_0|$, que se mantiene en todo momento muy por debajo del valor $0.01$ empleado para separar las energías de trabajo de los puntos críticos; esto garantiza que las simulaciones a $E_i \pm 0.01$ son fiables y que la deriva numérica de RK4 (método no simpléctico) no contamina los resultados. La gráfica muestra una línea horizontal en el valor de $1$, lo que indica que la energía calculada en cada paso de tiempo es igual a la energía inicial del sistema. Esto confirma que el sistema es conservativo y que el método de Runge-Kutta utilizado para resolver las ecuaciones de movimiento ha sido implementado correctamente, ya que ha permitido conservar la energía del sistema a lo largo de la simulación.
-
-En la gráfica se encuentran los valores de energía para las energías $E_1$, $E_2$, $E_3$ y $E_4$, y se puede observar que para todas las energías, la energía del sistema se conserva a lo largo del tiempo, lo que confirma la validez de nuestras simulaciones y el correcto funcionamiento del método de Runge-Kutta implementado.
+Como se observa en la figura \ref{fig:Energy}, la energía del sistema se conserva a lo largo del tiempo. Para cuantificar la conservación de forma más precisa, conviene fijarse en la desviación absoluta $|E(t)-E_0|$, que se mantiene en todo momento muy por debajo del valor $0.01$ empleado para separar las energías de trabajo de los puntos críticos; esto garantiza que las simulaciones a $E_i \pm 0.01$ son fiables y que la deriva numérica de RK4 no contamina los resultados. La gráfica muestra muestras como la diferencia se mantiene en todo momento por debajo de $10^{-10}$. En la gráfica se encuentran los valores de energía para las energías $E_1$, $E_2$, $E_3$ y $E_4$, y se puede observar que para todas las energías, la energía del sistema se conserva a lo largo del tiempo, lo que confirma la validez de nuestras simulaciones y el correcto funcionamiento del método de Runge-Kutta implementado.
 
 \section{Conclusiones}
 
@@ -529,7 +527,7 @@ En este proyecto, hemos simulado el comportamiento de un péndulo doble utilizan
 
 Sin embargo, por falta de tiempo, no hemos podido analizar en profundidad el comportamiento del sistema para energías más altas, lo que podría ser un tema interesante. Además, podríamos explorar otras herramientas de análisis, como la entropía de Kolmogorov-Sinai o la dimensión de fractal, para obtener una comprensión aún más profunda del comportamiento caótico del sistema. En general, este proyecto ha sido una experiencia enriquecedora que nos ha permitido aplicar técnicas de simulación numérica y análisis de sistemas dinámicos para estudiar un sistema como el péndulo doble.
 
-Además, el código de Fortran utilizado para la simulación ha tenido que ser optimizado para poder realizar las simulaciones en tiempos razonables, lo que ha constituido una parte relevante del proceso de desarrollo.
+Además, el código de Fortran utilizado para la simulación ha tenido que ser optimizado para poder realizar las simulaciones en tiempos razonables, lo que ha constituido una parte relevante del proceso de desarrollo. Esto ha sido un desafío interesante, ya que hemos tenido que encontrar formas de mejorar la eficiencia del código sin sacrificar la precisión de los resultados, lo que ha implicado un proceso de prueba y error para encontrar el equilibrio adecuado entre velocidad y precisión, así como el estudio de diferentes técnicas de optimización, como la vectorización y el uso de estructuras de datos eficientes y la paralelización de ciertas partes del código.
 
 
 \section{Apéndice}
