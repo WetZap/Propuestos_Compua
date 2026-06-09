@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
-RUN chmod +x Codigo/BashOptN.sh
+RUN chmod +x Code/BashOptN.sh
 
-WORKDIR /app/Codigo
+WORKDIR /app/Code
 CMD ["bash", "BashOptN.sh"]
