@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     gnuplot \
     ffmpeg \
     bash \
+    magick \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
