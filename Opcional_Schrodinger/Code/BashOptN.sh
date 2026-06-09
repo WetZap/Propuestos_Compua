@@ -218,7 +218,7 @@ combinar_imagenes_Valor_Medio() {
     
     # Comprobar si existen antes de combinarlas
         # -append las junta verticalmente
-        magick "$img1" "$img2"  -append "Resumen_Valor_Medio.png"
+        convert "$img1" "$img2"  -append "Resumen_Valor_Medio.png"
         echo "Imágenes combinadas en $out_dir/Resumen_Valor_Medio.png"
     
 }
@@ -232,7 +232,7 @@ combinar_imagenes_Temporal() {
     local img2="simulacion_PrincIncertidumbre.png"
     
     # Comprobar si existen antes de combinarlas
-        magick "$img1" "$img2"  -append "Resumen_Temporal.png"
+        convert "$img1" "$img2"  -append "Resumen_Temporal.png"
         echo "Imágenes combinadas en $out_dir/Resumen_Temporal.png"
 
 }
