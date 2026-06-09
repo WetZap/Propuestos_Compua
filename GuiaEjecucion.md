@@ -46,7 +46,7 @@ cd ../Opcional_Schrodinger
 docker build -t simulacion-schro .
 
 # 2. Ejecutar (los resultados se guardarán en tu Escritorio)
-docker run --rm -v "$(pwd)/Resultados_Schro:/app/Codigo/Video" simulacion-schro
+docker run --rm -v "$(pwd)/Resultados_Schro:/app/Code/Video" simulacion-schro
 ```
 
 ---
@@ -91,5 +91,5 @@ cd ..\Opcional_Schrodinger
 docker build -t simulacion-schro .
 
 # 2. Ejecutar
-docker run --rm -v "${PWD}\Resultados_Schro:/app/Codigo/Video" simulacion-schro
+docker run --rm -v "${PWD}\Resultados_Schro:/app/Code/Video" simulacion-schro
 ```
