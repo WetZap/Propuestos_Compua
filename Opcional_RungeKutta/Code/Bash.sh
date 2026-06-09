@@ -466,10 +466,14 @@ render_Proyeccion "$DIR_DATOS_TEMP_2" "$DIR_GIFS_SISTEMA_2"
 render_Proyeccion "$DIR_DATOS_TEMP_3" "$DIR_GIFS_SISTEMA_3"
 render_Proyeccion "$DIR_DATOS_TEMP_4" "$DIR_GIFS_SISTEMA_4"
 
-render_Poincare2 "$DIR_DATOS_POINCARE" "$DIR_GIFS_POINCARE"
 
 render_Lyapunov "$DIR_DATOS_Lyapunov" "$DIR_GIFS_Lyapunov"
 render_Energia_Lyapunov "$DIR_DATOS_Lyapunov" "$DIR_GIFS_Lyapunov"
+
+
+render_Poincare2 "$DIR_DATOS_POINCARE" "$DIR_GIFS_POINCARE"
+
+
 
 
 wait
