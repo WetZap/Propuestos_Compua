@@ -1,47 +1,49 @@
-# Propuestos_Computacional
+# Propuestos Computacional
 
-Repositorio académico destinado a recopilar prácticas, desarrollos y proyectos de carácter computacional vinculados al estudio numérico de problemas físicos y matemáticos. Su finalidad es reunir, en una única estructura organizada, tanto las implementaciones algorítmicas como la documentación teórica y los resultados derivados de cada trabajo.
+Este repositorio contiene dos proyectos principales:
 
-## Descripción general
+- `Opcional_RungeKutta`
+- `Opcional_Schrodinger`
 
-Este repositorio se concibe como una colección de proyectos independientes, cada uno centrado en una metodología, problema o sistema de interés dentro del ámbito de la computación científica. En conjunto, el contenido refleja un enfoque orientado al análisis numérico, la simulación y la visualización de resultados obtenidos mediante herramientas computacionales.
+## Importante
 
-La organización del repositorio responde a un criterio modular. Cada subdirectorio principal actúa como una unidad de trabajo autocontenida, permitiendo separar con claridad los objetivos, materiales y resultados de cada práctica o proyecto.
+Antes de ejecutar el código, es necesario leer la guía de ejecución:
 
-## Contenido
+- [Guía de ejecución](./GUIA_DOCKER.md)
 
-De forma general, los proyectos incluidos en este repositorio pueden contener:
+En esa guía se explica la instalación en macOS y Windows, el uso de Docker y la ubicación de los resultados generados.
 
-- Código fuente para simulación, cálculo numérico o análisis computacional.
-- Scripts auxiliares para compilación, automatización y posprocesado.
-- Documentación técnica y memorias en formatos editables y compilados.
-- Figuras, imágenes, gráficas y otros recursos visuales asociados a los resultados.
-- Archivos bibliográficos y material complementario de apoyo.
+---
 
-## Organización de los proyectos
+## 🔬 Descripción de los Proyectos
 
-Cada proyecto mantiene su propia estructura interna y su propio contexto técnico. Por este motivo, la información detallada relativa a objetivos específicos, dependencias, metodología de ejecución y descripción de resultados se encuentra dentro de la carpeta correspondiente a cada trabajo.
+Ambos proyectos forman parte de las simulaciones y resoluciones numéricas para la asignatura de Física Computacional. Están diseñados para exprimir el rendimiento del procesador mediante ejecución en paralelo.
 
-Este criterio de descentralización permite preservar el rigor documental de cada práctica y evita mezclar requisitos de compilación o ejecución entre proyectos de naturaleza distinta.
+### 1. Sistema Dinámico (Runge-Kutta)
+Resolución numérica de ecuaciones diferenciales no lineales mediante métodos de Runge-Kutta. El proyecto incluye:
+- Simulaciones de evolución temporal y proyecciones en el espacio fásico.
+- Generación de Secciones de Poincaré para el estudio del caos determinista.
+- Cálculo de exponentes de Lyapunov y dependencia energética.
 
-## Documentación interna
+### 2. Ecuación de Schrödinger
+Resolución computacional de la ecuación de Schrödinger dependiente del tiempo. El proyecto realiza:
+- Evolución temporal de la función de onda y su densidad de probabilidad.
+- Implementación de polinomios de Hermite para los autoestados del oscilador armónico.
+- Cálculo de valores medios y renderizado de animaciones del comportamiento cuántico.
 
-La raíz del repositorio tiene un propósito descriptivo y organizativo. No se incluye aquí una guía general de ejecución, dado que cada subproyecto puede emplear lenguajes, compiladores, bibliotecas y flujos de trabajo diferentes.
+## 🛠 Herramientas y Tecnologías
 
-Para consultar instrucciones concretas de uso, compilación o reproducción de resultados, debe revisarse el archivo `README.md` —o la documentación equivalente— disponible dentro de cada subdirectorio.
+Todo el flujo de trabajo está automatizado mediante *Bash scripts* que orquestan la compilación, simulación y renderizado:
+- **Fortran 90 (`gfortran`)**: Para el cálculo numérico intensivo, paralelizado con OpenMP para reducir los tiempos de ejecución.
+- **Gnuplot**: Generación masiva de gráficas y fotogramas a partir de los datos binarios/dat de Fortran.
+- **FFmpeg / ImageMagick**: Ensamblado de fotogramas para crear animaciones `.mp4` y `.png` del sistema.
+- **Docker**: Contenerización del entorno (Ubuntu 22.04) para garantizar la total reproducibilidad en cualquier sistema operativo (Windows, macOS o Linux) sin problemas de dependencias.
 
-## Proyecto actualmente documentado
+## 📂 Estructura del Repositorio
 
-Entre los contenidos verificados del repositorio se encuentra el subproyecto `Opcional_RungeKutta`, dedicado al estudio numérico de un sistema dinámico mediante métodos de Runge-Kutta y acompañado de documentación propia en su carpeta correspondiente.
+- `/Opcional_RungeKutta`: Contiene el código fuente (`Code/`), la memoria en LaTeX/PDF (`Main.pdf`) y su respectivo `Dockerfile`.
+- `/Opcional_Schrodinger`: Contiene el código fuente (`Codigo/`), módulos de polinomios, la memoria (`Main.pdf`) y su `Dockerfile`.
+- `/GUIA_DOCKER.md`: Guía de instalación y ejecución rápida paso a paso.
 
-A su vez se encuentra documentado `Opcional_Schrodinger`, dedicado al estudio numéricos de una onda en un pozo armónico cuántico.
-
-## Finalidad del repositorio
-
-Este repositorio tiene como propósito:
-
-- Centralizar prácticas y desarrollos de computación científica.
-- Facilitar la consulta estructurada de código y documentación asociada.
-- Preservar resultados, figuras y materiales complementarios de cada proyecto.
-- Mantener una separación clara entre trabajos independientes dentro de un mismo entorno académico.
- 
+---
+**Autor:** Jorge Del Rio - Grado en Física (Universidad de Granada)
