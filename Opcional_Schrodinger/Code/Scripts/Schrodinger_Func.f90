@@ -6,7 +6,7 @@ program Funcion
    real*8, dimension(:), allocatable :: V, x_discreto, tiempo_discreto
    complex*16, dimension(:), allocatable :: alpha, gammia
    complex*16, dimension(:), allocatable :: beta, q, phi, phi_aux,dphi_dx, dphi_dx_2
-   integer i, j, N, S, corte,
+   integer i, j, N, S, corte
 
    ! Inicializacion de variables
    S = 1000
