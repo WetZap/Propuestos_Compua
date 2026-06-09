@@ -5,7 +5,7 @@ Este repositorio contiene dos proyectos principales:
 - `Opcional_RungeKutta`
 - `Opcional_Schrodinger`
 
-## Importante
+##\uf071 Importante\uf071
 
 Antes de ejecutar el código, es necesario leer la guía de ejecución:
 
