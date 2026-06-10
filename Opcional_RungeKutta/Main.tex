@@ -37,9 +37,7 @@
 \usepackage{bm} %Posibilidad de escribir símbolos en negrita en lenguaje matemático. 
 \usepackage{url} %Inclusión de direcciones URL en el documento.
 \usepackage{siunitx} %Permite la escritura de cantidades físicas y unidades en el documento.
-\usepackage{geometry} %Posibilidad de personalizar las dimensiones del documento.
-\usepackage{graphicx}
-\usepackage{hyperref}
+
 %\usepackage{revtex4}
 \usepackage{titlesec}
 
@@ -60,9 +58,9 @@
 \begin{document}
 \renewcommand{\headrulewidth}{0.5pt}
 \newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
-\renewcommand{\refname}{Bibliography}
-\renewcommand{\tablename}{Table}
-\renewcommand{\contentsname}{Index}
+\renewcommand{\refname}{Bibliografía}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\contentsname}{Índice}
 \renewcommand{\figurename}{Fig.}
 \captionsetup{labelfont={color=nube}}
 \addtocontents{toc}{\hspace{-7.5mm} \textbf{Capitulos}}
@@ -88,7 +86,7 @@
     \vspace{0.5cm}
     
     
-     \normalfont\Large Grado en Físicas \\
+     \normalfont\Large Grado en Física \\
     \vspace{0.5cm}
      \normalfont Física Computacional \\
     \vspace{1.5cm}
@@ -150,11 +148,11 @@ Para ello, definimos las coordenadas generalizadas del sistema, que son los áng
 
 
 
-Aplicando las ecuaciones de Euler-Lagrange:
+Aplicando las ecuaciones de Euler-Lagrange\footnote{La explicación de las ecuaciones se expone en el apéndice.}:
 
 \begin{equation}
 \dfrac{d}{dt} \left( \dfrac{\partial \mathcal{L}}{\partial \dot{\theta}_i} \right) - \dfrac{\partial \mathcal{L}}{\partial \theta_i} = 0
-\end{equation} \footnote{La explicación de las ecuaciones se expone en el apéndice.}
+\end{equation} 
 
 Si aplicamos las ecuaciones de Euler-Lagrange a las coordenadas generalizadas $\theta_1$ y $\theta_2$, obtenemos unas expresiones en las que se relacionan las aceleraciones angulares $\ddot{\theta}_1$ y $\ddot{\theta}_2$ con las posiciones angulares $\theta_1$ y $\theta_2$, así como con sus velocidades angulares $\dot{\theta}_1$ y $\dot{\theta}_2$. Estas ecuaciones son no lineales y acopladas. 
 
@@ -302,7 +300,7 @@ A continuación se muestran las gráficas obtenidas para la tercera energía $E_
     \centering{
     \includegraphics[width=0.8\linewidth]{Video/Tarea3/simulacion_Temporal_Global.png_1.png}}
     \caption{Evolución de los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para la energía $E_3$, con un tiempo de simulación de 100 segundos.}
-    \label{fig:Tarea3_E3}
+    \label{fig:Tarea1_E3}
 \end{figure}
 Simplemente con la imagen se puede observar que el sistema exhibe un comportamiento caótico, ya que las trayectorias para distintas condiciones iniciales se alejan rápidamente entre ellas a medida que avanza el tiempo. El origen del caos no es el mayor rango de movimiento en sí, sino la pérdida de los toros invariantes (escenario KAM) al aumentar la energía, que produce sensibilidad exponencial a las condiciones iniciales. Para poder observar con más detalle el comportamiento caótico del sistema, a continuación se muestra un zoom de la gráfica anterior, para ello hemos escogido un intervalo de tiempo de 20 segundos, para poder observar con más detalle el comportamiento del sistema:
 
@@ -310,7 +308,7 @@ Simplemente con la imagen se puede observar que el sistema exhibe un comportamie
     \centering{
     \includegraphics[width=0.8\linewidth]{Video/Tarea3/simulacion_Temporal_Global.png_3.png}}
     \caption{Zoom de la evolución de los ángulos $\theta_1$ y $\theta_2$ frente al tiempo para la energía $E_3$, con un tiempo de simulación de 20 segundos.}
-    \label{fig:Tarea3_E3_zoom}
+    \label{fig:Tarea1_E3_zoom}
 \end{figure}
 
 En esta gráfica se puede observar claramente el comportamiento caótico del sistema, ya que las trayectorias para distintas condiciones iniciales se alejan rápidamente entre ellas a medida que avanza el tiempo. El sistema exhibe comportamiento caótico.
@@ -476,7 +474,7 @@ El valor de $d_{i}(t)$ se calcula utilizando la siguiente fórmula:
 d_{i}(t) = \sqrt{(\theta_1(t) - \theta_1'(t))^2 + (\theta_2(t) - \theta_2'(t))^2 + (\omega_1(t) - \omega_1'(t))^2 + (\omega_2(t) - \omega_2'(t))^2}
 \end{equation}
 
-% VERIFICAR: confirmar si se implementó renormalización periódica en el código; si no, eliminar la frase siguiente y sustituirla por una nota honesta indicándolo.
+
 La separación inicial entre trayectorias se calculo con los valores iniciales, y tras cada intervalo de integración las trayectorias se reescalan a esa separación inicial conservando su dirección, para evitar la saturación debida al carácter acotado del espacio de fases.
 
 Y el valor de $d_{i}(0)$ se calcula al inicio de la simulación, utilizando las condiciones iniciales de las dos trayectorias que estamos comparando, posteriormente, a medida que avanza la simulación, calculamos $d_{i}(t)$ en cada paso de tiempo y utilizamos estos valores para calcular el exponente de Lyapunov. 
@@ -511,7 +509,7 @@ Si además queremos observar con más detalle el comportamiento del exponente de
 
 Por último, queríamos añadir esta sección para mostrar como la energía del sistema se conserva, para ello exponemos la siguiente gráfica, que muestra la energía inicial del sistema dividida por la energía calculada en cada paso de tiempo:
 
-% TODO: si se dispone de los datos de |E(t)-E0|, sustituir esta figura por la desviación absoluta; ilustra mejor el rigor de la conservación numérica que el cociente E_0/E(t).
+
 \begin{figure}[H]
     \centering{
     \includegraphics[width=0.8\linewidth]{Video/Lyapunov/Lyapunov_Energia.png}}

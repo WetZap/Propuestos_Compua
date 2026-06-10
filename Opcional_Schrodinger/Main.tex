@@ -38,9 +38,6 @@
 \usepackage{bm} %Posibilidad de escribir símbolos en negrita en lenguaje matemático. 
 \usepackage{url} %Inclusión de direcciones URL en el documento.
 \usepackage{siunitx} %Permite la escritura de cantidades físicas y unidades en el documento.
-\usepackage{geometry} %Posibilidad de personalizar las dimensiones del documento.
-\usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{titlesec}
 
 
@@ -60,13 +57,13 @@
 \begin{document}
 \renewcommand{\headrulewidth}{0.5pt}
 \newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
-\renewcommand{\refname}{Bibliography}
-\renewcommand{\tablename}{Table}
-\renewcommand{\contentsname}{Index}
+\renewcommand{\refname}{Bibliografía}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\contentsname}{Índice}
 \renewcommand{\figurename}{Fig.}
 \captionsetup{labelfont={color=nube}}
-\addtocontents{toc}{\hspace{-7.5mm} \textbf{Chapters}}
-\addtocontents{toc}{\hfill \textbf{Page} \par}
+\addtocontents{toc}{\hspace{-7.5mm} \textbf{Capitulos}}
+\addtocontents{toc}{\hfill \textbf{Página} \par}
 \addtocontents{toc}{\vspace{-2mm} \hspace{-7.5mm} \hrule \par}
 
 \onecolumn
@@ -88,7 +85,7 @@
     \vspace{0.5cm}
     
     
-     \normalfont\Large Grado en Físicas \\
+     \normalfont\Large Grado en Física \\
     \vspace{0.5cm}
      \normalfont Física Computacional \\
     \vspace{1.5cm}
@@ -114,7 +111,7 @@
 \HRule{0.5pt} %Controla los márgenes horizontales visibles (líneas) y el grosor de la línea (...pt).
 
 \begin{abstract}
-Estudio de la evolución temporal de varias funciones de ondas sometidas a un pozo armónico, empleando el método de Crank-Nicolson para la resolución numérica de la ecuación de Schrödinger dependiente del tiempo. Las funciones de onda estudiadas incluyen las autofunciones del sistema y una función gaussiana, mostrando así las diferencias entre los estados estacionarios y los estados no estacionarios del sistema. 
+Estudio de la evolución temporal de varias funciones de onda sometidas a un pozo armónico, empleando el método de Crank-Nicolson para la resolución numérica de la ecuación de Schrödinger dependiente del tiempo. Las funciones de onda estudiadas incluyen las autofunciones del sistema y una función gaussiana, mostrando así las diferencias entre los estados estacionarios y los estados no estacionarios del sistema. 
 \end{abstract}
 
 \section{Introducción}
@@ -156,7 +153,7 @@ En la ecuación \ref{eq:SolucionFormal} se muestra la solución formal de la ecu
 La resolución numérica que seguiremos para resolver la ecuación de Schrödinger dependiente del tiempo se basa en la aplicación de métodos numéricos para aproximar la solución de la ecuación diferencial parcial que representa la ecuación de Schrödinger.
 
 
-Para llevar a cabo este proceso, emplearemos el método de Crank-Nicolson\footnote{En el apendice se encuentra la aplicación de este método en un sistema con solo discretización temporal.}, el cual es un método numérico de orden 2 que se utiliza para resolver ecuaciones diferenciales parciales, como la ecuación de Schrödinger. Este método es incondicionalmente estable, lo que significa que no hay restricciones en el tamaño del paso de tiempo $\Delta t$ para garantizar la estabilidad numérica. 
+Para llevar a cabo este proceso, emplearemos el método de Crank-Nicolson\footnote{En el apéndice se encuentra la aplicación de este método en un sistema con solo discretización temporal.}, el cual es un método numérico de orden 2 que se utiliza para resolver ecuaciones diferenciales parciales, como la ecuación de Schrödinger. Este método es incondicionalmente estable, lo que significa que no hay restricciones en el tamaño del paso de tiempo $\Delta t$ para garantizar la estabilidad numérica. 
 
 
 Para llevar a cabo esto, lo primero que haremos será discretizar el espacio $x_j = j\Delta x = j \dfrac{L}{S}$ y el tiempo $t_n = n\Delta t$, obteniendo una malla de puntos en el espacio y en el tiempo. Pasando así nuestra ecuación $\psi(x_j,t_n) \rightarrow \psi_{j}^{n}$ con $j$ y $n$ enteros y la limitación $j = 0, 1, 2, \ldots, S$ encerrado en un espacio de tamaño $L$.
@@ -225,7 +222,7 @@ Sacando como factor común el término $i\ \omega/2$ llegamos a la siguiente exp
 
 Con esta expresión, somos capaces de obtener el valor de $q^n_j$ resolviendo un sistema de ecuaciones lineales del tipo $k_1\ q_{j+1}^{n} + k_2\ q_{j}^{n} + k_3\ q_{j-1}^{n} = b_j^n$ con $k_1 = 1$, $k_2 = \dfrac{2i}{\omega} -\Delta x^2 V_j - 2$, $k_3 = 1$ y $b_j^n = \dfrac{4i}{\omega}\psi^n_j$, para resolver este sistema de ecuaciones lineales emplearemos el método de Thomas\footnote{Este método se explica en el apéndice}, el cual es un método eficiente para resolver sistemas de ecuaciones lineales tridiagonales, como el que tenemos en este caso, para poder aplicarlo necesitamos considerar las condiciones de contorno para que concuerden con las convenciones $q_0 = 0$ y $q_S = 0$.
 
-En nuestro caso, los valores $k_1$ y $k_3$ son constantes e igual a $1$, y siguiendo el procedimiento del apendice llegamos a la expresión de $q^n_{j+1} = \alpha_j q^n_j + \beta_j$, con $\alpha_j$ y $\beta_j$ definidos por las siguientes fórmulas de recurrencia (para un $n$ fijo):
+En nuestro caso, los valores $k_1$ y $k_3$ son constantes e igual a $1$, y siguiendo el procedimiento del apéndice llegamos a la expresión de $q^n_{j+1} = \alpha_j q^n_j + \beta_j$, con $\alpha_j$ y $\beta_j$ definidos por las siguientes fórmulas de recurrencia (para un $n$ fijo):
 \begin{equation}
     \alpha_{j-1} = -\dfrac{a_j}{b_j + c_j \alpha_j} = -\dfrac{1}{\dfrac{2i}{\omega} -\Delta x^2 V_j - 2 + \alpha_j}
 \end{equation}
@@ -257,7 +254,7 @@ La expresión del potencial que se ha utilizado para el oscilador armónico cuá
 
 Los parámetros que se han utilizado para el estudio del oscilador armónico cuántico son los siguientes:
 \begin{itemize}
-    \item $\omega_{osc} \in \{200, 800\}$: Frecuencia del oscilador armónico (se considera $200$ salvo indicación contraria).
+    \item $\omega_{osc} \in \{200, 800\ ,1500\}$: Frecuencia del oscilador armónico (se considera $200$ salvo indicación contraria).
     \item $x_0 = 0.5$: Posición de equilibrio del oscilador armónico.
     \item $x_0^{gauss} = 0.3$: Desplazamiento de la función gaussiana.
     \item $\sigma \in \{1/16, 1/10\}$: Ancho de la función gaussiana.
@@ -272,7 +269,7 @@ Los parámetros que se han utilizado para el estudio del oscilador armónico cu�
 
 
 \section{Resultados}
-En esta sección se mostrarán los resultados obtenidos, se divide en tres sub-secciones, en las dos primeras cambiaremos las funciones de onda de entrada y observaremos su comportamiento mientras que en la ultima sub-sección compararemos el comportamiento clásico con el comportamiento cuántico.
+En esta sección se mostrarán los resultados obtenidos, se divide en tres sub-secciones, en las dos primeras cambiaremos las funciones de onda de entrada y observaremos su comportamiento mientras que en la última sub-sección compararemos el comportamiento clásico con el comportamiento cuántico.
 
 \subsection{Auto funciones}
 \label{subsec:Autofunciones}
@@ -286,7 +283,7 @@ Haciendo el cambio de variable $y = x - 0.5$, llegamos a la siguiente expresión
     [-\dfrac{d^2}{dy^2} + \dfrac{\omega^2}{4}\ y^2] \psi(y) = E\psi(y)
 \end{equation}
 
-Ecuación que se corresponde con la ecuación de Schrödinger para el oscilador armónico cuántico, cuya solución es conocida y se expresa en términos de las funciones de Hermite $H_n(\alpha y)$\footnote{Expresión de los polinomios de Hermite en el apéndice} y la función gaussiana $e^{-\alpha^2 y^2/2}$, el proceso de resolución se puede seguir en \cite{SolucionSchro}, donde en la pagina web se usa un valor $\alpha = \sqrt{\dfrac{m\ \omega}{\hbar}}\rightarrow \sqrt{\omega/2}$. Tras utilizar las expresiones de las funciones de Hermite y la función gaussiana, obtenemos la siguiente expresión para las autofunciones del oscilador armónico cuántico:
+Ecuación que se corresponde con la ecuación de Schrödinger para el oscilador armónico cuántico, cuya solución es conocida y se expresa en términos de las funciones de Hermite $H_n(\alpha y)$\footnote{Expresión de los polinomios de Hermite en el apéndice} y la función gaussiana $e^{-\alpha^2 y^2/2}$, el proceso de resolución se puede seguir en \cite{SolucionSchro}, donde en la página web se usa un valor $\alpha = \sqrt{\dfrac{m\ \omega}{\hbar}}\rightarrow \sqrt{\omega/2}$. Tras utilizar las expresiones de las funciones de Hermite y la función gaussiana, obtenemos la siguiente expresión para las autofunciones del oscilador armónico cuántico:
 \begin{equation}
     \psi_n(x) = C_n e^{-\alpha^2\ y^2/2} H_n(\alpha y) \rightarrow y = x - 0.5 \rightarrow \psi_n(x) = C_n e^{-\alpha^2\ (x-0.5)^2/2} H_n(\alpha (x-0.5))
 \end{equation}
@@ -376,7 +373,7 @@ Donde $\langle y \rangle_n$ es el valor medio de $y$ en las autofunciones, el cu
     \langle p \rangle_n = 0
 \end{equation}
 
-Para el calculo numérico del valor medio de $x$ y $p$, se han utilizado los equivalentes discretizados de las expresiones teóricas, a continuación se muestra la aplicación en nuestro programa:
+Para el cálculo numérico del valor medio de $x$ y $p$, se han utilizado los equivalentes discretizados de las expresiones teóricas, a continuación se muestra la aplicación en nuestro programa:
 
 \begin{figure}[H]
     \centering{
@@ -407,7 +404,7 @@ En esta sección se ha calculado el valor medio de la energía $H$ y el producto
 \end{equation}
 
 
-Para el calculo numérico del valor medio de $H$ y el producto de las incertidumbres $\Delta x \Delta p$, se han utilizado los equivalentes discretizados de las expresiones teóricas, a continuación se muestra la aplicación en nuestro programa:
+Para el cá lculo numérico del valor medio de $H$ y el producto de las incertidumbres $\Delta x \Delta p$, se han utilizado los equivalentes discretizados de las expresiones teóricas, a continuación se muestra la aplicación en nuestro programa:
 
 \begin{figure}[H]
     \centering{
@@ -518,7 +515,7 @@ Para las autofunciones del oscilador armónico cuántico, se ha comparado la pro
     P_c(x) dx = \dfrac{dx}{\pi \sqrt{(x_c^2 - x^2)}}
 \end{equation}
 
-Donde $x_c = \sqrt{2E_n/m\omega^2} = \sqrt{4 E_n/\omega^2}$ y $ x= x - x_0$, con $E_n$ el valor de la energía correspondiente a la autofunción utilizada, $m$ la masa de la partícula y $\omega$ la frecuencia del oscilador armónico. Esta expresión nos dá la probabilidad de encontrar la partícula en cada punto del espacio para el modelo clásico del oscilador armónico, esta expresión se ha utilizado para comparar con la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico, poniendo de manifiesto el contraste entre el comportamiento clásico y el cuántico.
+Donde $x_c = \sqrt{2E_n/m\omega^2} = \sqrt{4 E_n/\omega^2}$ y $ x' = x - x_0$, con $E_n$ el valor de la energía correspondiente a la autofunción utilizada, $m$ la masa de la partícula y $\omega$ la frecuencia del oscilador armónico. Esta expresión nos dá la probabilidad de encontrar la partícula en cada punto del espacio para el modelo clásico del oscilador armónico, esta expresión se ha utilizado para comparar con la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico, poniendo de manifiesto el contraste entre el comportamiento clásico y el cuántico.
 
 Conforme aumentamos el valor de $n$ de las autofunciones, la evolución de la probabilidad obtenida para las autofunciones del oscilador armónico cuántico se acerca cada vez más a la expresión propuesta para el modelo clásico del oscilador armónico, lo que refleja el hecho de que a medida que aumentamos el valor de $n$, las autofunciones del oscilador armónico cuántico se acercan cada vez más a los estados clásicos del sistema, lo que confirma la correspondencia entre el comportamiento clásico y el comportamiento cuántico del sistema, esto se muestra para el valor  de  $n = 20$ en la siguiente gráfica:
 
